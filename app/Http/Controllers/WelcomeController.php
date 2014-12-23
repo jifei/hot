@@ -30,7 +30,6 @@ class WelcomeController extends Controller {
 	 */
 	public function index()
 	{
-        echo \App::environment();exit;
 		return view('welcome');
 	}
 

@@ -14,11 +14,12 @@
 Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'HomeController@index');
+Route::get('feed', 'FeedController@index');
 
-$router->get('hello', function()
-{
-    return 'Hello World';
-});
+//$router->get('feed', function()
+//{
+//    return 'Hello World';
+//});
 /*
 |--------------------------------------------------------------------------
 | Authentication & Password Reset Controllers
