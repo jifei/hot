@@ -14,12 +14,12 @@ class CreateFavoriteTable extends Migration {
     public function up()
     {
         //
-        Schema::create('comment', function ($table) {
+        Schema::create('favorite', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id')->comment('ID');
-            $table->bigInteger('hid')->index()->comment('热点ID');
+            $table->bigInteger('fid')->index()->comment('热点ID');
             $table->bigInteger('uid')->index()->comment('用户ID');
-            $table->tinyInteger('status', 1)->comment('状态');
+            $table->tinyInteger('status')->default(1)->comment('状态');
             // created_at, updated_at DATETIME
             $table->timestamps();
             $table->softDeletes();
@@ -34,7 +34,7 @@ class CreateFavoriteTable extends Migration {
     public function down()
     {
         //
-        Schema::dropIfExists('comment');
+        Schema::dropIfExists('favorite');
     }
 
 }

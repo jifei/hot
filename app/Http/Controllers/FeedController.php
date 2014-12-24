@@ -13,4 +13,7 @@ class FeedController extends Controller
     {
         echo \App::environment();
     }
+
+    public function add(){
+    }
 }

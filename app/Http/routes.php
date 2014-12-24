@@ -15,6 +15,12 @@ Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'HomeController@index');
 Route::get('feed', 'FeedController@index');
+Route::get('api', 'Api\IndexController@index');
+Route::get('admin', 'Admin\IndexController@index');
+
+$ApiRoute=function(){};
+Route::group(['domain' => 'api.redudian.com'], $ApiRoute);
+Route::group(['domain' => 'test.redudian.com'], $ApiRoute);
 
 //$router->get('feed', function()
 //{

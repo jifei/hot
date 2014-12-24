@@ -14,7 +14,7 @@ class CreateUserTable extends Migration
     public function up()
     {
         //
-        Schema::create('user', function ($table) {
+        Schema::create('user', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('uid')->comment('用户ID');
             $table->string('name')->nullable()->unique()->comment('用户名');
@@ -23,9 +23,9 @@ class CreateUserTable extends Migration
             $table->string('nickname')->nullable()->unique()->comment('用户昵称');
             $table->string('avatar')->nullable()->comment('用户头像');
             $table->string('password', '100')->nullable()->comment('密码');
-            $table->string('email', '50')->nullable()->unique()->comment('邮箱');
+            $table->string('email', '60')->unique()->comment('邮箱');
             $table->integer('mobile')->nullable()->unique()->comment('手机号');
-            $table->tinyInteger('status', 1)->comment('状态');
+            $table->tinyInteger('status')->default(1)->comment('状态');
             // created_at, updated_at DATETIME
             $table->timestamps();
             $table->softDeletes();
