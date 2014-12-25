@@ -17,9 +17,10 @@ class CreateBoardTable extends Migration {
             $table->engine = 'InnoDB';
             $table->increments('bid')->comment('热点ID');
             $table->string('name',100)->unique()->comment('版块名称');
-            $table->bigInteger('pid',0)->index()->comment('父ID');
-            $table->bigInteger('aid',0)->index()->comment('祖先ID');
-            $table->bigInteger('uid',0)->comment('用户ID');
+            $table->string('code',20)->unique()->comment('版块code');
+            $table->bigInteger('pid')->default(0)->index()->comment('父ID');
+            $table->bigInteger('aid')->default(0)->index()->comment('祖先ID');
+            $table->bigInteger('uid')->default(0)->comment('用户ID');
             $table->tinyInteger('status')->default(1)->comment('状态');
             // created_at, updated_at DATETIME
             $table->timestamps();
