@@ -18,7 +18,7 @@ class CreateUpDownTable extends Migration {
             $table->engine = 'InnoDB';
             $table->increments('id')->comment('操作ID');
             $table->bigInteger('fid')->index()->comment('热点ID');
-            $table->bigInteger('uid',0)->comment('用户ID');
+            $table->bigInteger('uid')->default(0)->comment('用户ID');
             $table->tinyInteger('type')->index()->comment('操作类别1:up,-1,down');
             $table->tinyInteger('status')->default(1)->comment('状态');
             // created_at, updated_at DATETIME
