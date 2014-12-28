@@ -14,7 +14,7 @@ class CreateCommentTable extends Migration {
     public function up()
     {
         //
-        Schema::create('Comment', function (Blueprint $table) {
+        Schema::create('comment', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id')->comment('ID');
             $table->bigInteger('uid')->index()->comment('用户ID');
@@ -36,6 +36,6 @@ class CreateCommentTable extends Migration {
     public function down()
     {
         //
-        Schema::dropIfExists('Comment');
+        Schema::dropIfExists('comment');
     }
 }

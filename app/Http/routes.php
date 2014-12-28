@@ -36,6 +36,8 @@ Route::group(['domain' => 'test.redudian.com'], $ApiRoute);
 | passwords for your users. You may modify or remove these files.
 |
 */
+//App::bind('UserRepository');
+
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

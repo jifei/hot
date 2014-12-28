@@ -27,6 +27,7 @@ class CreateUserTable extends Migration
             $table->integer('mobile')->nullable()->unique()->comment('手机号');
             $table->tinyInteger('status')->default(1)->comment('状态');
             // created_at, updated_at DATETIME
+            $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
         });
