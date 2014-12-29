@@ -14,10 +14,13 @@
 Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'HomeController@index');
-Route::get('feed', 'FeedController@index');
-Route::get('feed/add', 'FeedController@add');
+Route::get('f/get', 'FeedController@get');
+Route::get('f/index', 'FeedController@index');
+
+Route::get('f/add', 'FeedController@add');
 Route::get('api', 'Api\IndexController@index');
 Route::get('admin', 'Admin\IndexController@index');
+Route::get('/f/{key}', 'FeedController@detail');
 
 $ApiRoute = function () {
 };
