@@ -30,6 +30,7 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
+       echo generate_feed_key();exit;
 		return view('home');
 	}
 
