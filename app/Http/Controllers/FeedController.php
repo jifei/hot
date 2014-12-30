@@ -8,7 +8,6 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\Feed\FeedRepository;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Request;
 
 class FeedController extends Controller

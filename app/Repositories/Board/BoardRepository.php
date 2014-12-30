@@ -39,10 +39,11 @@ class BoardRepository extends Repository
     /**
      * 创建
      * @param $data
+     * @param $format
      *
      * @return array
      */
-    public function create($data)
+    public function create($data, $format = 'array')
     {
         list($ok, , $msg) = self::format_validator($this->validator($data));
         if (!$ok) {
@@ -50,6 +51,27 @@ class BoardRepository extends Repository
         }
 
         $ret = Board::create($data);
-        return self::success($ret->toArray());
+
+        return self::success(self);
     }
+
+    /**
+     * 根据版块code获取版块信息
+     * @param $code
+     * @return array
+     */
+    public function getBoardByCode($code)
+    {
+        return Board::where('code', $code)->first();
+    }
+
+    /**
+     * 获取所有根版块
+     * @return mixed
+     */
+    public function getTopBoards()
+    {
+        return Board::where('pid', 0)->orderBy('display_sort', 'ASC')->orderBy('bid', 'ASC')->get()->toArray();
+    }
+
 } 

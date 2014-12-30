@@ -3,22 +3,21 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFeedTable extends Migration
-{
+class CreateDomainTable extends Migration {
 
     /**
      * Run the migrations.
-     * 热点表
+     * 域名表
      * @return void
      */
     public function up()
     {
         //
-        Schema::create('feed', function (Blueprint $table) {
+        Schema::create('domain', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->bigIncrements('fid')->comment('热点ID');
-            $table->string('fkey',12)->unique()->comment('fkey');
-            $table->bigInteger('uid')->index()->comment('用户ID');
+            $table->increments('did')->comment('ID');
+            $table->string('name',120)->unique()->comment('域名');
+            $table->bigInteger('base_name')->index()->comment('根域名');
             $table->integer('bid')->index()->comment('版块ID');
             $table->string('title', 500)->comment('标题');
             $table->string('link', 300)->nullable()->comment('链接');
@@ -43,7 +42,7 @@ class CreateFeedTable extends Migration
     public function down()
     {
         //
-        Schema::dropIfExists('feed');
+        Schema::dropIfExists('domain');
     }
 
 }

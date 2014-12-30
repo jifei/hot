@@ -8,13 +8,14 @@
 namespace App\Repositories;
 
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Database\Eloquent\Model;
 
 class Repository
 {
     /**
      * 成功返回
      *
-     * @param array  $data
+     * @param array $data
      * @param string $msg
      *
      * @return array
@@ -52,6 +53,15 @@ class Repository
         }
 
         return self::success();
+    }
+
+    public static function format_result(Model $data, $format = 'array')
+    {
+        dd($data);
+        if ($format == 'array') {
+            return $data ? $data->toArray() : array();
+        }
+        return $data;
     }
 
 }
