@@ -51,10 +51,11 @@ class FeedRepository extends Repository
      * 添加数据
      *
      * @param $data
+     * @param $format
      *
      * @return array
      */
-    public function create($data)
+    public function create($data, $format = 'array')
     {
         list($ok, , $msg) = self::format_validator($this->validator($data));
         if (!$ok) {
@@ -67,14 +68,22 @@ class FeedRepository extends Repository
         $data['status'] = 1;
         $ret            = Feed::create($data);
 
-        return self::success($ret->toArray());
+        return self::success(self::format_result($ret, $format));
     }
 
-    public function getFeedByKey($key)
+    /**
+     * 根据key获取feed
+     *
+     * @param        $key
+     * @param string $format
+     *
+     * @return array
+     */
+    public function getFeedByKey($key, $format = 'array')
     {
         $feed = Feed::where('fkey', $key)->first();
 
-        return $feed ? $feed->toArray() : array();
+        return self::format_result($feed, $format);
     }
 
 

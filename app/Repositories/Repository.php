@@ -15,7 +15,7 @@ class Repository
     /**
      * 成功返回
      *
-     * @param array $data
+     * @param array  $data
      * @param string $msg
      *
      * @return array
@@ -55,12 +55,20 @@ class Repository
         return self::success();
     }
 
-    public static function format_result(Model $data, $format = 'array')
+    /**
+     * 输出指定格式
+     *
+     * @param        $data
+     * @param string $format
+     *
+     * @return array
+     */
+    public static function format_result($data, $format = 'array')
     {
-        dd($data);
         if ($format == 'array') {
-            return $data ? $data->toArray() : array();
+            return method_exists($data, 'toArray') ? $data->toArray() : array();
         }
+
         return $data;
     }
 

@@ -38,6 +38,7 @@ class BoardRepository extends Repository
 
     /**
      * 创建
+     *
      * @param $data
      * @param $format
      *
@@ -57,21 +58,27 @@ class BoardRepository extends Repository
 
     /**
      * 根据版块code获取版块信息
+     *
      * @param $code
+     * @param $format
+     *
      * @return array
      */
-    public function getBoardByCode($code)
+    public function getBoardByCode($code, $format = 'array')
     {
-        return Board::where('code', $code)->first();
+        return self::format_result(Board::where('code', $code)->first(), $format);
     }
 
     /**
      * 获取所有根版块
+     *
+     * @param $format
+     *
      * @return mixed
      */
-    public function getTopBoards()
+    public function getTopBoards($format = 'array')
     {
-        return Board::where('pid', 0)->orderBy('display_sort', 'ASC')->orderBy('bid', 'ASC')->get()->toArray();
+        return self::format_result(Board::where('pid', 0)->orderBy('display_sort', 'ASC')->orderBy('bid', 'ASC')->get(), $format);
     }
 
 } 

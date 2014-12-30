@@ -37,9 +37,7 @@ class FeedController extends Controller
 
     public function get()
     {
-        if (array()) {
-            die(111);
-        }
+
         $data = $this->feed->getFeedByKey('jfecsbCvU6aT');
         var_dump($data);
     }
