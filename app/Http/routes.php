@@ -14,11 +14,16 @@
 Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'HomeController@index');
-Route::get('feed', 'FeedController@index');
+Route::get('f/get', 'FeedController@get');
+Route::get('f/index', 'FeedController@index');
+
+Route::get('f/add', 'FeedController@add');
 Route::get('api', 'Api\IndexController@index');
 Route::get('admin', 'Admin\IndexController@index');
+Route::get('/f/{key}', 'FeedController@detail');
 
-$ApiRoute=function(){};
+$ApiRoute = function () {
+};
 Route::group(['domain' => 'api.redudian.com'], $ApiRoute);
 Route::group(['domain' => 'test.redudian.com'], $ApiRoute);
 
@@ -40,6 +45,6 @@ Route::group(['domain' => 'test.redudian.com'], $ApiRoute);
 
 
 Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
+    'auth'     => 'Auth\AuthController',
+    'password' => 'Auth\PasswordController',
 ]);

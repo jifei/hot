@@ -7,13 +7,41 @@
  */
 namespace App\Http\Controllers;
 
+use App\Repositories\Feed\FeedRepository;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
+
 class FeedController extends Controller
 {
-    public function index()
+    public function __construct()
     {
-        echo \App::environment();
+        $this->feed = new FeedRepository();
     }
 
-    public function add(){
+    public function index()
+    {
+        echo 1111;
+    }
+
+    public function detail()
+    {
+        $data = $this->feed->getFeedByKey(Request::segment(2));
+        var_dump($data);
+    }
+
+    public function add()
+    {
+        list($ok,$data,$msg) = $this->feed->create($_POST);
+        var_dump($data);
+        exit;
+    }
+
+    public function get()
+    {
+        if (array()) {
+            die(111);
+        }
+        $data = $this->feed->getFeedByKey('jfecsbCvU6aT');
+        var_dump($data);
     }
 }

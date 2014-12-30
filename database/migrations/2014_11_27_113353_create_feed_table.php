@@ -26,7 +26,7 @@ class CreateFeedTable extends Migration
             $table->integer('down_num')->default(0)->comment('down次数');
             $table->integer('comment_num')->default(0)->comment('评论次数');
             $table->integer('fav_num')->default(0)->comment('收藏次数');
-            $table->dateTime('interact_at')->comment('最后互动时间');
+            $table->dateTime('interact_at')->nullable()->comment('最后互动时间');
             $table->tinyInteger('status')->default(1)->comment('状态');
             // created_at, updated_at DATETIME
             $table->timestamps();
