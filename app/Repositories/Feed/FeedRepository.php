@@ -86,5 +86,10 @@ class FeedRepository extends Repository
         return self::format_result($feed, $format);
     }
 
+    public function getFeedByBoard($bid,$order,$format='array'){
+        $feed = Feed::where('bid', $bid)->orWhere('pid',$bid)->orderBy($order, 'DESC')->get();
+        return self::format_result($feed, $format);
+    }
+
 
 }
