@@ -156,11 +156,11 @@
     </div>
 </div>
 
-{{ HTML::script('js/jquery.min.js')}}
-{{ HTML::script('js/bootstrap.min.js')}}
-{{ HTML::script('js/bootstrap-hover-dropdown.min.js')}}
-{{ HTML::script('js/tagscloud.js')}}
-{{ HTML::script('jquery-ui/jquery-ui.min.js')}}
+{!! HTML::script('js/jquery.min.js')!!}
+{!! HTML::script('js/bootstrap.min.js')!!}
+{!! HTML::script('js/bootstrap-hover-dropdown.min.js')!!}
+{!! HTML::script('js/tagscloud.js')!!}
+{!! HTML::script('jquery-ui/jquery-ui.min.js')!!}
 <script type="text/javascript">
     $(function () {
         if ($.browser.msie && parseInt($.browser.version, 10) === 6) {

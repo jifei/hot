@@ -182,4 +182,4 @@
     </div>
 </div>
 @include('includes.foot')
-{{HTML::script('js/index.js')}}
+{!!HTML::script('js/index.js')!!}
