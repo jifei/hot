@@ -27,6 +27,10 @@ $ApiRoute = function () {
 Route::group(['domain' => 'api.redudian.com'], $ApiRoute);
 Route::group(['domain' => 'test.redudian.com'], $ApiRoute);
 
+
+
+//Composer
+View::composer('includes.navbar','App\Http\Composer\NavbarComposer');
 //$router->get('feed', function()
 //{
 //    return 'Hello World';

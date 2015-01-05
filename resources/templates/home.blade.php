@@ -1,5 +1,5 @@
 @include('includes.head')
-@include('includes.header')
+@include('includes.navbar')
 <div id="content">
     <div id="content-container">
         <div id="timeline">
