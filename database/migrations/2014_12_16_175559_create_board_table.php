@@ -21,6 +21,7 @@ class CreateBoardTable extends Migration {
             $table->bigInteger('pid')->default(0)->index()->comment('父ID');
             $table->bigInteger('aid')->default(0)->index()->comment('祖先ID');
             $table->bigInteger('uid')->default(0)->comment('用户ID');
+            $table->string('desc',500)->comment('描述');
             $table->integer('display_sort')->default(100)->comment('排序');
             $table->tinyInteger('status')->default(1)->comment('状态');
             // created_at, updated_at DATETIME
