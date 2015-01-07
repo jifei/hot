@@ -23,11 +23,11 @@ class Registrar implements RegistrarContract
     {
         //验证提示信息
         $messages = [
-            'name.required'     => '用户名不能为空!',
-            'name.min'          => '长度不能少于4个字符!',
-            'name.max'          => '长度不能大于20个字符!',
-            'name.alpha_dash'   => '只允许数字、字母、下划线、中划线!',
-            'name.unique'       => '用户名已经存在!',
+            //'name.required'     => '用户名不能为空!',
+            //'name.min'          => '长度不能少于4个字符!',
+            //'name.max'          => '长度不能大于20个字符!',
+            //'name.alpha_dash'   => '只允许数字、字母、下划线、中划线!',
+            //'name.unique'       => '用户名已经存在!',
             'nickname.required' => '昵称不能为空!',
             'nickname.min'      => '长度不能少于2个字符!',
             'nickname.max'      => '长度不能大于20个字符!',
@@ -43,7 +43,7 @@ class Registrar implements RegistrarContract
 
         //验证规则
         $rules = [
-            'name'     => 'required|min:4|max:20|alpha_dash|unique:user',
+           // 'name'     => 'required|min:4|max:20|alpha_dash|unique:user',
             'nickname' => 'required|min:2|max:20|unique:user',
             'password' => 'required|min:6|max:20',
             'email'    => 'required|email|unique:user|max:40'
@@ -62,7 +62,7 @@ class Registrar implements RegistrarContract
     public function create(array $data)
     {
         return $this->user->create([
-            'name'     => $data['name'],
+            'nickname'     => $data['nickname'],
             'email'    => $data['email'],
             'password' => bcrypt($data['password']),
         ]);

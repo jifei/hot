@@ -17,17 +17,6 @@
             </div>
 
             <div class="control-group">
-                <label class="control-label">用户名</label>
-
-                <div class="controls">
-                    <div class="input-prepend">
-                        <span class="add-on"><i class="icon-user"></i></span>
-                        <input type="text" name="username">
-                    </div>
-                </div>
-            </div>
-
-            <div class="control-group">
                 <label class="control-label">密码</label>
 
                 <div class="controls">
@@ -76,25 +65,25 @@
             </div>
 
             <div class="control-group">
-                <label class="control-label">用户名</label>
-
-                <div class="controls">
-                    <div class="input-prepend">
-                        <span class="add-on"><i class="icon-user"></i></span>
-                        <input type="text" name="user_name">
-                    </div>
-                </div>
-            </div>
-            <div class="control-group">
                 <label class="control-label">昵称</label>
 
                 <div class="controls">
                     <div class="input-prepend">
-                        <span class="add-on"><i class="icon-fire"></i></span>
+                        <span class="add-on"><i class="icon-user"></i></span>
                         <input type="text" name="nickname">
                     </div>
                 </div>
             </div>
+            {{--<div class="control-group">--}}
+                {{--<label class="control-label">昵称</label>--}}
+
+                {{--<div class="controls">--}}
+                    {{--<div class="input-prepend">--}}
+                        {{--<span class="add-on"><i class="icon-fire"></i></span>--}}
+                        {{--<input type="text" name="nickname">--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div>--}}
             <div class="control-group">
                 <label class="control-label">密码</label>
 
@@ -107,7 +96,7 @@
             </div>
             <div class="control-group">
                 <div class="controls">
-                    <button type="submit" class="btn btn-warning" style="width:220px;">注册</button>
+                    <button  class="btn btn-warning" style="width:220px;">注册</button>
                 </div>
             </div>
         </form>
@@ -145,7 +134,7 @@
             </div>
             <div class="control-group">
                 <div class="controls">
-                    <button type="submit" class="btn btn-warning"
+                    <button class="btn btn-warning"
                             style="width:64px;margin-left:348px;height:30px;font-size:14px;">发布
                     </button>
                 </div>
@@ -171,8 +160,29 @@
             $('[class^="icon-"], [class*=" icon-"]').addClass("icon-sprite");
             $(".pagination li:first-child a").addClass("pagination-first-child")
         }
-    })
-    $(document).ready(function () {
+
+        //注册
+        $("#registerModal button.btn-warning").click(function(e){
+           e.preventDefault();
+           $.ajax({
+               'url':'/auth/register',
+               'type':'post',
+               'data':{'mobile':$("#registerModal input[name='mobile']").val(),
+                       'nickname':$("#registerModal input[name='nickname']").val(),
+                       'password':$("#registerModal input[name='password']").val()
+                       },
+               'dataType':'json',
+               'success':function(data){
+                 if(data.code==200){
+                    window.location.reload();
+                 }else{
+                    alert(data.msg);
+                 }
+                 return false;
+               }
+           });
+           return false;
+        });
         $('.dropdown-toggle').dropdownHover();
         var availableTags = [
             "ActionScript",

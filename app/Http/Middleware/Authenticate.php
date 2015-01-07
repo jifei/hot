@@ -3,7 +3,7 @@
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Routing\Middleware;
-
+use Illuminate\Support\Facades\URL;
 class Authenticate implements Middleware {
 
 	/**
@@ -41,7 +41,7 @@ class Authenticate implements Middleware {
 			}
 			else
 			{
-				return redirect()->guest('auth/login');
+				return redirect()->guest('auth/login?redirect_url='.urlencode(URL::full()));
 			}
 		}
 

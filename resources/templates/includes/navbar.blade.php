@@ -9,7 +9,7 @@
             <a class="brand" href="http://www.redudian.com" >热度点</a>
             <div class="nav-collapse collapse navbar-responsive-collapse">
                 <ul class="nav">
-                    <li @if(0=='')class="active"@endif><a href="/">首页</a></li>
+                    <li><a href="/">首页</a></li>
                     @foreach($top_boards as $v)
                        <li><a href="/f/{{$v['code']}}">{{$v['name']}}</a></li>
                     @endforeach

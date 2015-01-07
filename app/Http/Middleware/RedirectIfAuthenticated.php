@@ -4,6 +4,7 @@ use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\Routing\Middleware;
+use Illuminate\Support\Facades\Response;
 
 class RedirectIfAuthenticated implements Middleware {
 
@@ -36,6 +37,9 @@ class RedirectIfAuthenticated implements Middleware {
 	{
 		if ($this->auth->check())
 		{
+            if($request->ajax()){
+               return Response::json(['code'=>403,'data'=>[],'msg'=>'已经登录']);
+            }
 			return new RedirectResponse(url('/home'));
 		}
 

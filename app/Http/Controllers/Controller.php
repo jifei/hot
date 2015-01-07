@@ -2,9 +2,38 @@
 
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Symfony\Component\HttpFoundation\Response;
 
-abstract class Controller extends BaseController {
+abstract class Controller extends BaseController
+{
 
-	use ValidatesRequests;
+    use ValidatesRequests;
+
+    /**
+     *
+     * ajax fail
+     * @param       $msg
+     * @param int   $code
+     * @param array $data
+     *
+     * @return mixed
+     */
+    public static function ajaxFail($msg, $code = 400, $data = array())
+    {
+        return Response::json(['code' => $code, 'data' => $data, 'msg' => $msg]);
+    }
+
+    /**
+     * ajax success
+     * @param        $data
+     * @param int    $code
+     * @param string $msg
+     *
+     * @return mixed
+     */
+    public static function ajaxSuccess($data, $code = 200, $msg = 'ok')
+    {
+        return Response::json(['code' => $code, 'data' => $data, 'msg' => $msg]);
+    }
 
 }
