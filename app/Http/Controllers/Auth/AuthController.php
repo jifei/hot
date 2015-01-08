@@ -33,6 +33,8 @@ class AuthController extends Controller
         $this->middleware('guest', ['except' => 'getLogout']);
     }
 //
+//$ckname = Auth::getRecallerName();
+//Cookie::queue($ckname, Cookie::get($ckname), 43200);
 //    public function getRegister(Request $request){
 //        $validator = $this->registrar->validator($request->all());
 //         echo $validator->fails();

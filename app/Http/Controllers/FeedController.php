@@ -15,11 +15,17 @@ class FeedController extends Controller
     public function __construct()
     {
         $this->feed = new FeedRepository();
+        echo 'construct';
     }
 
     public function index()
     {
-        echo 1111;
+        echo 2222;
+         die('1111');
+    }
+    public function __destruct(){
+        echo 'destruct';
+
     }
 
     public function detail()

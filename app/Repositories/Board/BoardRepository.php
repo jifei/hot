@@ -80,6 +80,8 @@ class BoardRepository extends Repository
     {
         return         $data = [
             ['id' => '1', 'name' => '新闻', 'code' => 'news', 'display_sort' => 1],
+            ['id' => '2', 'name' => '原创', 'code' => 'funny', 'display_sort' => 2],
+            ['id' => '2', 'name' => '观点', 'code' => 'funny', 'display_sort' => 2],
             ['id' => '2', 'name' => '搞笑', 'code' => 'funny', 'display_sort' => 2],
             ['id' => '4', 'name' => '娱乐', 'code' => 'ent', 'display_sort' => 4],
             ['id' => '6', 'name' => '影视', 'code' => 'yingshi', 'display_sort' => 6],
