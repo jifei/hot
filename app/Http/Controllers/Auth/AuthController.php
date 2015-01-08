@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\Registrar;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use App\Repositories\User\UserRepository;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Input;
 
 class AuthController extends Controller
@@ -25,16 +26,14 @@ class AuthController extends Controller
 
     use AuthenticatesAndRegistersUsers;
 
-    public function __construct(Guard $auth, Registrar $registrar)
+    public function __construct(Guard $auth, Registrar $registrar,UserRepository $user)
     {
         $this->auth      = $auth;
         $this->registrar = $registrar;
-        $this->user      = \App::make("App\Repositories\User\UserRepository");
+        $this->user      = $user;
         $this->middleware('guest', ['except' => 'getLogout']);
     }
 //
-//$ckname = Auth::getRecallerName();
-//Cookie::queue($ckname, Cookie::get($ckname), 43200);
 //    public function getRegister(Request $request){
 //        $validator = $this->registrar->validator($request->all());
 //         echo $validator->fails();
@@ -85,6 +84,12 @@ class AuthController extends Controller
 
         //登录成功
         if ($this->auth->attempt($credentials, $request->has('remember'))) {
+
+            if($request->has('remember')){
+                $ckname = $this->auth->getRecallerName();
+                Cookie::queue($ckname, Cookie::get($ckname), 43200*12);
+            }
+
             if ($request->ajax()) {
                 return $this->ajaxFail('邮箱或者密码错误', '402');
             } else {

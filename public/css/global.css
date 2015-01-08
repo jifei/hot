@@ -34,7 +34,9 @@ label{
 .help-inline.error{
     color: #D22;
 }
-
+.navbar.navbar-inverse{
+    min-width: 1000px;
+}
 .navbar .nav li a {
     padding: 10px 5px 10px 5px;
 }
@@ -102,7 +104,7 @@ form.navbar-search{
     padding:0px 18px 0px 14px;
     height:25px;
     line-height:25px;
-    width: 200px;
+    width: 100px;
     display: inline;
     border: 0px;
     background-color: #fefefe;
