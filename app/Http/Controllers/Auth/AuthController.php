@@ -36,6 +36,7 @@ class AuthController extends Controller
         $this->registrar = $registrar;
         $this->user      = $user;
         $this->middleware('guest', ['except' => 'getLogout']);
+        $this->middleware('csrf', ['only' => ['postRegister']]);
     }
 //
 //    public function getRegister(Request $request){

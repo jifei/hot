@@ -1,108 +1,8 @@
-@include('includes.head')
-@include('includes.navbar')
-<style>
-.input_status.failed {color:#f00;}
-.input_status.success {color:#EC67010;font-family:verdana;}
-input.error {border:1px solid #c33;background:#fff0f0}
-#content-container {
-margin-top: 20px;
-}
-.panel-page {
-padding: 45px 50px 50px;
-min-height: 550px;
-}
-.panel-default {
-border-color: #ddd;
-}
-.panel {
- background:#fff;
- margin-bottom: 20px;
- border: 1px solid #ccc;
- border-radius: 0px;
- -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
- box-shadow: 0 1px 1px rgba(0,0,0,.05);
-}
-.col-md-offset-3 {
-margin-left: 25%;
-}
-.col-md-6 {
-width: 50%;
-}
-.form-control {
-display: block;
-width: 100%;
-height: 34px;
-padding: 6px 12px;
-font-size: 14px;
-line-height: 1.428571429;
-color: #555;
-vertical-align: middle;
-background-color: #fff;
-background-image: none;
-border: 1px solid #ccc;
-border-radius: 4px;
--webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
--webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-}
-input.form-control{
-  height: 34px;
-  line-height: 34px;
-  margin-bottom: 0px;
-}
-.btn-block {
-display: block;
-width: 100%;
-padding-right: 0;
-padding-left: 0;
-}
-*, :before, :after {
--webkit-box-sizing: border-box;
--moz-box-sizing: border-box;
- box-sizing: border-box;
-}
-#content-container form {
-display: block;
-margin: 0em;
-}
-label {
-  display: inline-block;
-  margin-bottom: 5px;
-  font-weight: 700;
-}
-.panel-page .panel-heading {
-background: transparent;
-border-bottom: none;
-margin: 0 0 30px 0;
-padding: 0;
-}
-.panel-heading h2 {
-font-size: 25px;
-margin-top: 0;
-}
-p {
-  margin: 0 0 10px;
-}
-.help-block {
-display: block;
-margin-top: 5px;
-margin-bottom: 10px;
-color: #737373;
-}
-.input_status.success {
-color: #090;
-font-family: verdana;
-}
-</style>
-<div id="content-container" class="container">
-  <div class="row row-6">
-    <div class="col-md-6 col-md-offset-3 ptl">
-      <div class="panel panel-default panel-page">
-       <div id="registerStatus" class="alert alert-danger" style="display:none"></div>
-       <div id="emailCheckInfo" class="alert alert-danger" style="display:none"></div>
-       <div class="panel-heading"><h2>注册</h2><hr style="border-bottom:2px solid #EC6701;margin:0px;"></div>
+@extends('layouts.login')
+@section('register_panel')
+<div class="panel-heading"><h2>注册</h2><hr style="border-bottom:2px solid #EC6701;margin:0px;"></div>
        <form id="registerForm" class="form-vertical" method="post" action="/auth/register">
+    <input type="hidden" name="_token" value="{{csrf_token()}}">
        @if(!empty($error))
        <div class="alert alert-error">
            <a href="#" class="close" data-dismiss="alert">&times;</a>
@@ -151,21 +51,4 @@ font-family: verdana;
         </div>
 
       </form>
-
-    </div><!-- /panel -->
-
-  </div>
-
-</div><!-- /container -->
-
-</div>
-{!!HTML::script('js/jquery.min.js')!!}
-{!!HTML::script('js/bootstrap.min.js')!!}
-{!!HTML::script('js/jquery.form.min.js')!!}
-{!!HTML::script('js/bootstrapValidator.min.js')!!}
-{!!HTML::script('js/valid.js')!!}
-<script type="text/javascript">
-    $(document).ready(function(){
-         $("#registerForm").validation();
-    });
-</script>
+@stop
