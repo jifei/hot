@@ -36,7 +36,7 @@ class AuthController extends Controller
         $this->registrar = $registrar;
         $this->user      = $user;
         $this->middleware('guest', ['except' => 'getLogout']);
-        $this->middleware('csrf', ['only' => ['postRegister']]);
+        $this->middleware('csrf', ['only' => ['postRegister', 'postLogin']]);
     }
 //
 //    public function getRegister(Request $request){
@@ -71,6 +71,7 @@ class AuthController extends Controller
             $this->auth->login($this->registrar->create($request->all()), true);
             $ckname = $this->auth->getRecallerName();
             Cookie::queue($ckname, Cookie::get($ckname), self::REMEMBER_TIME);
+
             return redirect('/home');
         }
     }
@@ -87,10 +88,7 @@ class AuthController extends Controller
         $this->validate($request, [
             'email' => 'required', 'password' => 'required',
         ]);
-
         $credentials = $request->only('email', 'password');
-
-
         //登录成功
         if ($this->auth->attempt($credentials, $request->has('remember'))) {
             if ($request->has('remember')) {
@@ -114,11 +112,7 @@ class AuthController extends Controller
         if ($request->ajax()) {
             return $this->ajaxFail('邮箱或者密码错误', '402');
         } else {
-            return redirect('/auth/login')
-                ->withInput($request->only('email'))
-                ->withErrors([
-                    'email' => 'These credentials do not match our records.',
-                ]);
+            return redirect('/auth/login')->withErrors(['邮箱或者密码错误']);
         }
     }
 
