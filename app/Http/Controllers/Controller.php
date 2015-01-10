@@ -2,7 +2,7 @@
 
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Symfony\Component\HttpFoundation\Response;
+use Response;
 
 abstract class Controller extends BaseController
 {
@@ -31,7 +31,7 @@ abstract class Controller extends BaseController
      *
      * @return mixed
      */
-    public static function ajaxSuccess($data, $code = 200, $msg = 'ok')
+    public static function ajaxSuccess($data=array(), $code = 200, $msg = 'ok')
     {
         return Response::json(['code' => $code, 'data' => $data, 'msg' => $msg]);
     }

@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Response;
 
 class AuthController extends Controller
 {
@@ -26,7 +27,10 @@ class AuthController extends Controller
 
     use AuthenticatesAndRegistersUsers;
 
-    public function __construct(Guard $auth, Registrar $registrar,UserRepository $user)
+    //免登录记忆时间
+    const REMEMBER_TIME = 43200;
+
+    public function __construct(Guard $auth, Registrar $registrar, UserRepository $user)
     {
         $this->auth      = $auth;
         $this->registrar = $registrar;
@@ -48,22 +52,26 @@ class AuthController extends Controller
 //
 //        var_dump($this->user->all());exit;
 //    }
+
+    /**
+     * 注册
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function postRegister(Request $request)
     {
         $validator = $this->registrar->validator($request->all());
 
         if ($validator->fails()) {
-            return $this->ajaxFail($validator->messages()->first());
-        }else{
-            echo 111;exit;
-            $this->auth->login($this->registrar->create($request->all()));
+            return view('auth.register')->withError($validator->messages()->all());
+        } else {
+            $this->auth->login($this->registrar->create($request->all()), true);
+            $ckname = $this->auth->getRecallerName();
+            Cookie::queue($ckname, Cookie::get($ckname), self::REMEMBER_TIME);
+            return redirect('/home');
         }
-//        if ($validator->fails())
-//        {
-//            $this->throwValidationException(
-//                $request, $validator
-//            );
-//
     }
 
     /**
@@ -84,10 +92,9 @@ class AuthController extends Controller
 
         //登录成功
         if ($this->auth->attempt($credentials, $request->has('remember'))) {
-
-            if($request->has('remember')){
+            if ($request->has('remember')) {
                 $ckname = $this->auth->getRecallerName();
-                Cookie::queue($ckname, Cookie::get($ckname), 43200*12);
+                Cookie::queue($ckname, Cookie::get($ckname), self::REMEMBER_TIME);
             }
 
             if ($request->ajax()) {
@@ -112,5 +119,33 @@ class AuthController extends Controller
                     'email' => 'These credentials do not match our records.',
                 ]);
         }
+    }
+
+    /**
+     * 检查邮箱
+     * @return mixed
+     */
+    public function getCheckEmail()
+    {
+        $validator = $this->user->emailValidator(Input::get('email'));
+        if ($validator->fails()) {
+            return $this->ajaxFail($validator->messages()->first());
+        }
+
+        return $this->ajaxSuccess();
+    }
+
+    /**
+     * 检查邮箱
+     * @return mixed
+     */
+    public function getCheckNickname()
+    {
+        $validator = $this->user->emailValidator(Input::get('email'));
+        if ($validator->fails()) {
+            return $this->ajaxFail($validator->messages()->first());
+        }
+
+        return $this->ajaxSuccess();
     }
 }
