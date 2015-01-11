@@ -21,11 +21,12 @@ class BoardController extends Controller
 
     public function search()
     {
-        DB::enableQueryLog();
-         $this->board->searchBoards(Input::get('q',''));
-        $queries = DB::getQueryLog();
-        dd($queries);
-        echo $last_query = end($queries);
+        //DB::enableQueryLog();
+        $data = $this->board->searchBoards(Input::get('q', ''));
+        // $queries = DB::getQueryLog();
+        //dd($queries);
+        //echo $last_query = end($queries);
+        return $this->ajaxSuccess($data);
     }
 
     public function add()

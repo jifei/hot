@@ -214,29 +214,30 @@
 //                source: availableTags,
                 source: function (request, response) {
                     var term = request.term;
-                    if (term == '') {
-                        response($.map(availableTags, function (item) {
-                            return { label: item, value: item}
-                        }));
-                    } else {
+//                    if (term == '') {
+//                        response($.map(availableTags, function (item) {
+//                            return { label: item, value: item}
+//                        }));
+//                    } else {
                         $.ajax({
-                            url: "http://demo.com/ajax/Autocomplete.ashx",
+                            url: "/b/search",
                             dataType: "json",
                             data: {
                                 //top: 10,
-                                key: request.term
+                                q: request.term
                             },
                             success: function (data) {
-                                response($.map(data.citylist, function (item) {
-                                    return { label: item.city, value: item.city }
+                                response($.map(data['data'], function (item) {
+                                    return { label: item.name, value: item.name,code:item.code}
                                 }));
                             }
                         });
-                    }
+                    //}
                 },
                 minLength: 0,
                 search: "",
                 select: function (event, ui) {
+                    //alert(ui.item.code);
                 },
                 autoFocus: false,
                 delay: 0
