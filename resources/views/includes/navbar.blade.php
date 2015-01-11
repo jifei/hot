@@ -13,31 +13,15 @@
                     @foreach($top_boards as $v)
                        <li><a href="/b/{{$v['code']}}">{{$v['name']}}</a></li>
                     @endforeach
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">版块<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">新闻</a></li>
-                            <li><a href="#">自媒体</a></li>
-                            <li><a href="#">搞笑</a></li>
-                            <li><a href="#">财经</a></li>
-                            <li><a href="#">娱乐</a></li>
-                            <li><a href="#">电视</a></li>
-                            <li><a href="#">电影</a></li>
-                            <li><a href="#">体育</a></li>
-                            <li><a href="#">科技</a></li>
-                            <li><a href="#">汽车</a></li>
-                            <li><a href="#">房产</a></li>
-                            <li><a href="#">社会</a></li>
-                            <li><a href="#">公益</a></li>
-                            <li><a href="#">问答</a></li>
-<!--                            <li><a href="#">情感</a></li>-->
-<!--                            <li><a href="#">美食</a></li>-->
-<!--                            <li><a href="#">旅游</a></li>-->
-<!--                            <li><a href="#">读书</a></li>-->
-                            <li class="divider"></li>
-                            <li><a href="#">更多>></a></li>
-                        </ul>
-                    </li>
+                    {{--<li class="dropdown">--}}
+                        {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">版块<b class="caret"></b></a>--}}
+                        {{--<ul class="dropdown-menu">--}}
+                            {{--<li><a href="#">新闻</a></li>--}}
+                            {{--<li><a href="#">自媒体</a></li>--}}
+                              {{--<li class="divider"></li>--}}
+                            {{--<li><a href="#">更多>></a></li>--}}
+                        {{--</ul>--}}
+                    {{--</li>--}}
                     <li><a href="/more">更多>></a></li>
                 </ul>
                 <form class="navbar-search pull-left" action="">
@@ -45,7 +29,7 @@
                     <i class="icon-search"></i>
                 </form>
                 <ul class="nav pull-right">
-                    <li><button style="margin-right:5px;" type="submit" href="#publishModal"  data-toggle="modal" class="btn btn-warning publish-btn">发布</button></li>
+                    <li><button style="margin-right:5px;" @if(!$user) onclick="window.location.href='/auth/login'" @else href="#publishModal"  data-toggle="modal" @endif  class="btn btn-warning publish-btn">发布</button></li>
                     @if(!$user)
                     <li><a href="/auth/login"  data-toggle="modal"  class="login">登录</a></li>
                     <li><a href="/auth/register"  data-toggle="modal"  class="register">注册</a></li>
@@ -60,15 +44,6 @@
                         </ul>
                     </li>
                     @endif
-<!--                    <li class="divider-vertical"></li>-->
-<!--                    <li class="dropdown">-->
-<!--                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>-->
-<!--                        <ul class="dropdown-menu">-->
-<!--                            <li><a href="#">个人信息</a></li>-->
-<!--                            <li class="divider"></li>-->
-<!--                            <li><a href="#">设置</a></li>-->
-<!--                        </ul>-->
-<!--                    </li>-->
                 </ul>
             </div><!-- /.nav-collapse -->
         </div>

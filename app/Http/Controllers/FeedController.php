@@ -9,25 +9,20 @@ namespace App\Http\Controllers;
 
 use App\Repositories\Feed\FeedRepository;
 use Illuminate\Support\Facades\Request;
+use Auth;
 
 class FeedController extends Controller
 {
-    public function __construct()
+    public function __construct(FeedRepository $feed)
     {
-        $this->feed = new FeedRepository();
-        echo 'construct';
+        $this->feed = $feed;
+        $this->middleware('auth', ['only' => ['add']]);
     }
 
     public function index()
     {
-        echo 2222;
          die('1111');
     }
-    public function __destruct(){
-        echo 'destruct';
-
-    }
-
     public function detail()
     {
         $data = $this->feed->getFeedByKey(Request::segment(2));
@@ -37,8 +32,10 @@ class FeedController extends Controller
     public function add()
     {
         list($ok,$data,$msg) = $this->feed->create($_POST);
-        var_dump($data);
-        exit;
+        if(!$ok){
+            return $this->ajaxFail($msg);
+        }
+        return $this->ajaxSuccess($data);
     }
 
     public function get()

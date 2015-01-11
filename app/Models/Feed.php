@@ -18,7 +18,7 @@ class Feed extends Model{
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['fkey','title', 'bid', 'uid','link'];
+	protected $fillable = ['fkey','title', 'bid', 'uid','link','domain','status'];
 
     //黑名单
    // protected $guarded = array('fid');

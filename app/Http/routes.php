@@ -18,7 +18,7 @@ Route::get('home/info', 'HomeController@info');
 Route::get('f/get', 'FeedController@get');
 Route::get('f/index', 'FeedController@index');
 
-Route::get('f/add', 'FeedController@add');
+Route::post('f/add', 'FeedController@add');
 Route::get('api', 'Api\IndexController@index');
 Route::get('admin', 'Admin\IndexController@index');
 Route::get('/f/{key}', 'FeedController@detail');

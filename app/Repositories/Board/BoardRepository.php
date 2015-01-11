@@ -69,6 +69,14 @@ class BoardRepository extends Repository
         return self::format_result(Board::where('code', $code)->first(), $format);
     }
 
+    /**
+     * 搜索版块
+     *
+     * @param string $keyword
+     * @param string $format
+     *
+     * @return array|mixed
+     */
     public function searchBoards($keyword = '', $format = 'array')
     {
         if ($keyword === '') {
@@ -79,6 +87,18 @@ class BoardRepository extends Repository
             ->where(function ($query) use ($keyword) {
                 $query->where('name', 'like', "%$keyword%")->orWhere('code', 'like', "$keyword%");
             })->orderBy('display_sort', 'ASC')->orderBy('bid', 'ASC')->get(), $format);
+    }
+
+    /**
+     * 根据版块名称获取版块
+     * @param        $name
+     * @param string $format
+     *
+     * @return array
+     */
+    public function getBoardByName($name, $format = 'array')
+    {
+        return self::format_result(Board::where('name', $name)->where('status', 1)->first(), $format);
     }
 
     /**

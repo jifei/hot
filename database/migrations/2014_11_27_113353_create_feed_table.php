@@ -22,7 +22,7 @@ class CreateFeedTable extends Migration
             $table->integer('bid')->index()->comment('版块ID');
             $table->string('title', 500)->comment('标题');
             $table->string('link', 300)->nullable()->comment('链接');
-            $table->string('domain', 300)->nullable()->comment('链接域名');
+            $table->string('domain', 100)->nullable()->comment('链接域名');
             $table->integer('up_num')->default(0)->comment('up次数');
             $table->integer('down_num')->default(0)->comment('down次数');
             $table->integer('comment_num')->default(0)->comment('评论次数');
