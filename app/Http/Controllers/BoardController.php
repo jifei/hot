@@ -9,12 +9,23 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\Board\BoardRepository;
+use Illuminate\Support\Facades\DB;
+use Input;
 
 class BoardController extends Controller
 {
-    public function __construct()
+    public function __construct(BoardRepository $board)
     {
-        $this->board = new BoardRepository();
+        $this->board = $board;
+    }
+
+    public function search()
+    {
+        DB::enableQueryLog();
+         $this->board->searchBoards(Input::get('q',''));
+        $queries = DB::getQueryLog();
+        dd($queries);
+        echo $last_query = end($queries);
     }
 
     public function add()

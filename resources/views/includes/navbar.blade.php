@@ -11,7 +11,7 @@
                 <ul class="nav">
                     <li><a href="/">首页</a></li>
                     @foreach($top_boards as $v)
-                       <li><a href="/f/{{$v['code']}}">{{$v['name']}}</a></li>
+                       <li><a href="/b/{{$v['code']}}">{{$v['name']}}</a></li>
                     @endforeach
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">版块<b class="caret"></b></a>
@@ -46,8 +46,20 @@
                 </form>
                 <ul class="nav pull-right">
                     <li><button style="margin-right:5px;" type="submit" href="#publishModal"  data-toggle="modal" class="btn btn-warning publish-btn">发布</button></li>
+                    @if(!$user)
                     <li><a href="/auth/login"  data-toggle="modal"  class="login">登录</a></li>
                     <li><a href="/auth/register"  data-toggle="modal"  class="register">注册</a></li>
+                    @else
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{$user->nickname}}<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="icon-home"></i>我的主页</a></li>
+                            <li><a href="#"><i class="icon-cog"></i>账号设置</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/auth/logout"><i class="icon-off"></i>退出</a></li>
+                        </ul>
+                    </li>
+                    @endif
 <!--                    <li class="divider-vertical"></li>-->
 <!--                    <li class="dropdown">-->
 <!--                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>-->

@@ -40,6 +40,9 @@ label{
 .navbar .nav li a {
     padding: 10px 5px 10px 5px;
 }
+.dropdown .dropdown-menu li a{
+    padding: 3px 20px;
+}
 .navbar-inverse .nav .dropdown-menu li a:hover,.navbar-inverse .nav .dropdown-menu li a:focus {
     background-image: linear-gradient(to bottom,#F70,#F70);
     background-color: #F70;

@@ -10,6 +10,7 @@ namespace App\Http\Composer;
 
 use App\Repositories\Board\BoardRepository;
 use Illuminate\Contracts\View\View;
+use Auth;
 
 class NavbarComposer
 {
@@ -20,6 +21,7 @@ class NavbarComposer
 
     public function compose(View $view)
     {
-        $view->with('top_boards',$this->board->getTopBoards());
+        $view->with('top_boards',$this->board->getTopBoards())
+             ->with('user',Auth::user());
     }
 }

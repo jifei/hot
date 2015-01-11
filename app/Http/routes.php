@@ -22,6 +22,8 @@ Route::get('f/add', 'FeedController@add');
 Route::get('api', 'Api\IndexController@index');
 Route::get('admin', 'Admin\IndexController@index');
 Route::get('/f/{key}', 'FeedController@detail');
+Route::get('/b/search', 'BoardController@search');
+Route::get('/b/{key}', 'FeedController@list');
 
 $ApiRoute = function () {
 };

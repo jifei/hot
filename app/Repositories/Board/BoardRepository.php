@@ -69,6 +69,17 @@ class BoardRepository extends Repository
         return self::format_result(Board::where('code', $code)->first(), $format);
     }
 
+    public function searchBoards($keyword = '', $format = 'array')
+    {
+        if ($keyword === '') {
+            return $this->getTopBoards($format);
+        }
+        return self::format_result(Board::where('status',1)
+            ->where(function($query) use ($keyword){
+                $query->where('name', 'like', "%$keyword%")->orWhere('code', 'like', "%$keyword%");
+            })->orderBy('display_sort', 'ASC')->orderBy('bid', 'ASC')->get(), $format);
+    }
+
     /**
      * 获取所有根版块
      *
@@ -78,7 +89,7 @@ class BoardRepository extends Repository
      */
     public function getTopBoards($format = 'array')
     {
-        return         $data = [
+        /*return $data = [
             ['id' => '1', 'name' => '新闻', 'code' => 'news', 'display_sort' => 1],
             ['id' => '2', 'name' => '原创', 'code' => 'funny', 'display_sort' => 2],
             ['id' => '2', 'name' => '观点', 'code' => 'funny', 'display_sort' => 2],
@@ -101,7 +112,8 @@ class BoardRepository extends Repository
             ['id' => '14', 'name' => '声明', 'code' => 'statement', 'display_sort' => 14],
             ['id' => '15', 'name' => '公益', 'code' => 'gongyi', 'display_sort' => 15],
             ['id' => '16', 'name' => '建议', 'code' => 'gongyi', 'display_sort' => 15],
-        ];
+        ];*/
+
         return self::format_result(Board::where('pid', 0)->orderBy('display_sort', 'ASC')->orderBy('bid', 'ASC')->get(), $format);
     }
 
