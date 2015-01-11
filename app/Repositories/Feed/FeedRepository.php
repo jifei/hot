@@ -7,6 +7,7 @@
  */
 namespace App\Repositories\Feed;
 
+use App\Models\Board;
 use App\Models\Feed;
 use App\Repositories\Repository;
 use App\Repositories\Board\BoardRepository;
@@ -38,7 +39,7 @@ class FeedRepository extends Repository
             'bid.required'   => '版块非法',
             'uid.integer'    => '非法用户!',
             'bid.integer'    => '版块非法',
-            'link.url'           => '链接地址错误',
+            'link.url'       => '链接地址错误',
         ];
 
         //验证规则
@@ -72,7 +73,7 @@ class FeedRepository extends Repository
         }
         $data['bid'] = $board['bid'];
         if (!empty($data['link']) && stripos($data['link'], 'http') === false) {
-             $data['link'] = 'http://' . $data['link'];
+            $data['link'] = 'http://' . $data['link'];
         }
         list($ok, , $msg) = self::format_validator($this->validator($data));
         if (!$ok) {
@@ -81,7 +82,7 @@ class FeedRepository extends Repository
         if (!empty($data['link'])) {
             $parse_url = parse_url($data['link']);
             if (empty($parse_url['host'])) {
-               return self::fail('链接地址错误');
+                return self::fail('链接地址错误');
             }
             $data['domain'] = $parse_url['host'];
         }
@@ -105,6 +106,30 @@ class FeedRepository extends Repository
         $feed = Feed::where('fkey', $key)->first();
 
         return self::format_result($feed, $format);
+    }
+
+    /**
+     * 获取热点列表
+     * @param        $filter
+     * @param        $order
+     * @param int    $limit
+     * @param string $format
+     *
+     * @return array
+     */
+    public function getFeedList($filter, $order, $limit = 50, $format = 'array')
+    {
+        $query =DB::table('feed');
+        if (!empty($filter['board'])) {
+            $board = $this->board->getBoardByName($filter['board']);
+            if (!empty($board['bid'])) {
+                $query = $query->where('bid', $board['bid']);
+            }
+        }
+        if(!in_array($order,['fid','',''])){
+           $order = 'fid';
+        }
+        return self::format_result($query->where('status',1)->orderBy($order, 'DESC')->limit($limit)->get(),$format);
     }
 
     public function getFeedByBoard($bid, $order, $format = 'array')

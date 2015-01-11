@@ -8,6 +8,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\Feed\FeedRepository;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Request;
 use Auth;
 
@@ -21,7 +22,7 @@ class FeedController extends Controller
 
     public function index()
     {
-         die('1111');
+        $this->feed->getFeedList(Input::get('1'),11,50);
     }
     public function detail()
     {

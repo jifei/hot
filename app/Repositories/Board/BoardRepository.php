@@ -66,7 +66,7 @@ class BoardRepository extends Repository
      */
     public function getBoardByCode($code, $format = 'array')
     {
-        return self::format_result(Board::where('code', $code)->first(), $format);
+        return self::format_result(Board::where('code', $code)->where('status',1)->first(), $format);
     }
 
     /**
