@@ -1,59 +1,47 @@
-@extends('app')
+@extends('layouts.login')
+@section('register_panel')
+<div class="panel-heading"><h2>找回密码</h2><hr style="border-bottom:2px solid #EC6701;margin:0px;"></div>
+		@if (count($errors) > 0)
+       <div class="alert alert-error">
+           <a href="#" class="close" data-dismiss="alert">&times;</a>
+           <ul>
+              @foreach ($errors->all() as $error)
+              		<li>{{ $error }}</li>
+              @endforeach
+           </ul>
+       </div>
+       @endif
 
-@section('content')
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<div class="panel panel-default">
-				<div class="panel-heading">Reset Password</div>
-				<div class="panel-body">
-					@if (count($errors) > 0)
-						<div class="alert alert-danger">
-							<strong>Whoops!</strong> There were some problems with your input.<br><br>
-							<ul>
-								@foreach ($errors->all() as $error)
-									<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-						</div>
-					@endif
-
-					<form class="form-horizontal" role="form" method="POST" action="/password/reset">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+       <form id="registerForm" class="form-vertical" method="post" action="/password/reset">
+    <input type="hidden" name="_token" value="{{csrf_token()}}">
 						<input type="hidden" name="token" value="{{ $token }}">
-
 						<div class="form-group">
-							<label class="col-md-4 control-label">E-Mail Address</label>
-							<div class="col-md-6">
+							<label class="control-label">邮箱地址</label>
+							<div class="controls">
 								<input type="email" class="form-control" name="email" value="{{ old('email') }}">
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label class="col-md-4 control-label">Password</label>
-							<div class="col-md-6">
+							<label class="control-label">新密码</label>
+							<div class="controls">
 								<input type="password" class="form-control" name="password">
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label class="col-md-4 control-label">Confirm Password</label>
-							<div class="col-md-6">
+							<label class="control-label">确认新密码</label>
+							<div class="controls">
 								<input type="password" class="form-control" name="password_confirmation">
 							</div>
 						</div>
 
 						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								<button type="submit" class="btn btn-primary">
-									Reset Password
+							<div class="controls">
+								<button type="submit" class="btn btn-primary btn-warning btn-large btn-block">
+									重置密码
 								</button>
 							</div>
 						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+      </form>
 @endsection
