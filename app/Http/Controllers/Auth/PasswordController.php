@@ -27,8 +27,8 @@ class PasswordController extends Controller
     {
         $this->auth      = $auth;
         $this->passwords = $passwords;
-        $this->middleware('csrf', ['only' => ['postReset','postEmail']]);
         $this->middleware('guest');
+        $this->middleware('csrf', ['only' => ['postReset']]);
     }
 
     /**
@@ -41,14 +41,13 @@ class PasswordController extends Controller
     public function postEmail(Request $request)
     {
         $this->validate($request, ['email' => 'required']);
-
         switch ($response = $this->passwords->sendResetLink($request->only('email'), function ($message) {
             //$message->setCharset('utf-8');
             $message->subject("找回密码");
             //quoted_printable_encode
         })) {
             case PasswordBroker::RESET_LINK_SENT:
-                return redirect()->back()->with('status', trans($response));
+                return redirect()->back()->with('status', trans($response))->with('success',true);
 
             case PasswordBroker::INVALID_USER:
                 return redirect()->back()->withErrors(['email' => trans($response)]);
@@ -64,11 +63,11 @@ class PasswordController extends Controller
      */
     public function postReset(Request $request)
     {
-        $this->validate($request, [
-            'token'    => 'required',
-            'email'    => 'required',
-            'password' => 'required|confirmed|min:6|max:20',
-        ]);
+//        $this->validate($request, [
+//            'token'    => 'required',
+//            'email'    => 'required',
+//            'password' => 'required|confirmed|min:6|max:20',
+//        ]);
 
         //验证提示信息
         $messages = [
@@ -82,12 +81,14 @@ class PasswordController extends Controller
         $rules = [
             'token'    => 'required',
             'email'    => 'required',
-            'password' => 'required|confirmed',
+            'password' => 'required|confirmed|min:6|max:20',
         ];
 
-        $validator = Validator::make($request, $rules, $messages);
+        $validator = Validator::make($request->all(), $rules, $messages);
 
-
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->messages()->all());
+        }
         $credentials = $request->only(
             'email', 'password', 'password_confirmation', 'token'
         );
