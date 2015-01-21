@@ -3,22 +3,22 @@
 <div id="content">
     <div id="content-container">
         <div id="timeline">
-
+      @foreach ($feed_list as $feed)
             <div class="feed-item">
                 <div class="vote">
                     <a class="vote-up"></a>
 
-                    <div class="vote-count">10</div>
+                    <div class="vote-count">{{$feed['up_num']-$feed['down_num']}}</div>
                     <a class="vote-down"></a>
                 </div>
 
                 <div class="feed">
-                    <div class="feed-content"><a href="http://toutiao.com/group/3460056296/">习近平宣布南京青奥会开幕 会见多名外国政要</a>
+                    <div class="feed-content"><a href="http://toutiao.com/group/3460056296/">{{$feed['title']}}</a>
                     </div>
                     <div class="feed-extend">
 
-                        <div class="feed-from"><span>今天&nbsp;10:10</span>&nbsp;&nbsp;<a href="">jifei</a>&nbsp;通过手机发布至&nbsp;<a
-                                href="">新闻</a></div>
+                        <div class="feed-from"><span>{{$feed['created_at']}}</span>&nbsp;&nbsp;<a href="">{{$feed['nickname']}}</a>&nbsp;通过手机发布至&nbsp;<a
+                                href="/b/{{$feed['board_code']}}">{{$feed['board_name']}}</a></div>
 
                         <div class="feed-handle"><a>评论</a><span class="separator">|</span><a>分享</a><span
                                 class="separator">|</span><a>收藏</a><span class="separator">|</span>举报&nbsp;
@@ -27,126 +27,8 @@
                 </div>
                 <div class="clear"></div>
             </div>
+      @endforeach
 
-
-            <div class="feed-item">
-                <div class="vote">
-                    <a class="vote-up"></a>
-
-                    <div class="vote-count">10</div>
-                    <a class="vote-down"></a>
-                </div>
-
-                <div class="feed">
-                    <div class="feed-content"><a href="http://toutiao.com/group/3460056296/">抢先实拍全新科鲁兹1.4T</a></div>
-                    <div class="feed-extend">
-
-                        <div class="feed-from"><span>今天&nbsp;10:10</span>&nbsp;&nbsp;<a href="">jifei</a>&nbsp;通过手机发布至&nbsp;<a
-                                href="">新闻</a></div>
-
-                        <div class="feed-handle"><a>评论</a><span class="separator">|</span><a>分享</a><span
-                                class="separator">|</span><a>收藏</a><span class="separator">|</span>举报&nbsp;
-                        </div>
-                    </div>
-                </div>
-                <div class="clear"></div>
-            </div>
-
-
-            <div class="feed-item">
-                <div class="vote">
-                    <a class="vote-up"></a>
-
-                    <div class="vote-count">10</div>
-                    <a class="vote-down"></a>
-                </div>
-
-                <div class="feed">
-                    <div class="feed-content"><a href="http://toutiao.com/group/3460056296/">作为程序员你写过的最漂亮的代码是什么</a>
-                    </div>
-                    <div class="feed-extend">
-
-                        <div class="feed-from"><span>今天&nbsp;10:10</span>&nbsp;&nbsp;<a href="">jifei</a>&nbsp;通过手机发布至&nbsp;<a
-                                href="">新闻</a></div>
-
-                        <div class="feed-handle"><a>评论</a><span class="separator">|</span><a>分享</a><span
-                                class="separator">|</span><a>收藏</a><span class="separator">|</span>举报&nbsp;
-                        </div>
-                    </div>
-                </div>
-                <div class="clear"></div>
-            </div>
-
-
-            <div class="feed-item">
-                <div class="vote">
-                    <a class="vote-up"></a>
-
-                    <div class="vote-count">10</div>
-                    <a class="vote-down"></a>
-                </div>
-
-                <div class="feed">
-                    <div class="feed-content"><a href="http://toutiao.com/group/3460056296/">编程开发中最浪费时间和资源的7个错误</a>
-                    </div>
-                    <div class="feed-extend">
-
-                        <div class="feed-from"><span>今天&nbsp;10:10</span>&nbsp;&nbsp;<a href="">jifei</a>&nbsp;通过手机发布至&nbsp;<a
-                                href="">新闻</a></div>
-
-                        <div class="feed-handle"><a>评论</a><span class="separator">|</span><a>分享</a><span
-                                class="separator">|</span><a>收藏</a><span class="separator">|</span>举报&nbsp;
-                        </div>
-                    </div>
-                </div>
-                <div class="clear"></div>
-            </div>
-
-            <div class="feed-item">
-                <div class="vote">
-                    <a class="vote-up"></a>
-
-                    <div class="vote-count">10</div>
-                    <a class="vote-down"></a>
-                </div>
-
-                <div class="feed">
-                    <div class="feed-content"><a href="http://toutiao.com/group/3460056296/">抢先实拍全新科鲁兹1.4T</a></div>
-                    <div class="feed-extend">
-
-                        <div class="feed-from"><span>今天&nbsp;10:10</span>&nbsp;&nbsp;<a href="">jifei</a>&nbsp;通过手机发布至&nbsp;<a
-                                href="">新闻</a></div>
-
-                        <div class="feed-handle"><a>评论</a><span class="separator">|</span><a>分享</a><span
-                                class="separator">|</span><a>收藏</a><span class="separator">|</span>举报&nbsp;
-                        </div>
-                    </div>
-                </div>
-                <div class="clear"></div>
-            </div>
-
-            <div class="feed-item">
-                <div class="vote">
-                    <a class="vote-up"></a>
-
-                    <div class="vote-count">10</div>
-                    <a class="vote-down"></a>
-                </div>
-
-                <div class="feed">
-                    <div class="feed-content"><a href="http://toutiao.com/group/3460056296/">抢先实拍全新科鲁兹1.4T</a></div>
-                    <div class="feed-extend">
-
-                        <div class="feed-from"><span>今天&nbsp;10:10</span>&nbsp;&nbsp;<a href="">jifei</a>&nbsp;通过手机发布至&nbsp;<a
-                                href="">新闻</a></div>
-
-                        <div class="feed-handle"><a>评论</a><span class="separator">|</span><a>分享</a><span
-                                class="separator">|</span><a>收藏</a><span class="separator">|</span>举报&nbsp;
-                        </div>
-                    </div>
-                </div>
-                <div class="clear"></div>
-            </div>
 
         </div>
         <div id="dashboard-right">

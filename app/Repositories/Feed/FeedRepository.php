@@ -13,10 +13,17 @@ use App\Repositories\Repository;
 use App\Repositories\Board\BoardRepository;
 use Validator;
 use Auth;
+use DB;
+use PDO;
 
 
 class FeedRepository extends Repository
 {
+    const DIRECTION_UP = 1;//up
+    const DIRECTION_DOWN = -1;//down
+    const OPERATE_ADD = 1;//添加
+    const OPERATE_CANCEL = -1;//取消
+
     public function __construct(BoardRepository $board)
     {
         $this->board = $board;
@@ -110,6 +117,7 @@ class FeedRepository extends Repository
 
     /**
      * 获取热点列表
+     *
      * @param        $filter
      * @param        $order
      * @param int    $limit
@@ -119,20 +127,73 @@ class FeedRepository extends Repository
      */
     public function getFeedList($filter, $order, $limit = 50, $format = 'array')
     {
-        $query =DB::table('feed');
+        DB::setFetchMode(PDO::FETCH_ASSOC);
+        $query = DB::table('feed as f')->select('f.title', 'f.link', 'f.up_num', 'f.down_num',
+            'f.created_at', 'u.nickname', 'b.name as board_name', 'b.code as board_code');
+        $query->leftJoin('user as u', 'f.uid', '=', 'u.uid');
+        $query->leftJoin('board as b', 'f.bid', '=', 'b.bid');
+
         if (!empty($filter['board'])) {
             $board = $this->board->getBoardByName($filter['board']);
             if (!empty($board['bid'])) {
-                $query = $query->where('bid', $board['bid']);
+                $query->where('f.bid', $board['bid']);
             }
         }
-        if(!in_array($order,['fid','',''])){
-           $order = 'fid';
+        if (!in_array($order, ['fid', ''])) {
+            $order = 'fid';
         }
-        return self::format_result($query->where('status',1)->orderBy($order, 'DESC')->limit($limit)->get(),$format);
+        $query->orderBy('f.' . $order, 'DESC');
+
+        return $ret = $query->get();
+        DB::setFetchMode(PDO::FETCH_CLASS);
+        var_dump($ret);
+        exit;
+        $feed = new Feed();
+        $feed->join('user', 'user.uid', '=', 'feed.uid');
+        $ret     = $feed->get()->toArray();
+        $queries = DB::getQueryLog();
+        echo $last_query = end($queries);
+
+        //dd($last_query);
+
+        return $ret;
+
+
+        $result = $feed->where('feed.status', 1)->orderBy('feed.' . $order, 'DESC')->limit($limit)->get(array('feed.*', 'user.nickname'));
+
+        return self::format_result($result, $format);
     }
 
-    public function getFeedByBoard($bid, $order, $format = 'array')
+
+    public function feedUp($uid, $code)
+    {
+        return $this->feedUpDown($uid, $code);
+    }
+
+    public function cancelFeedUp($uid, $code)
+    {
+        return $this->feedUpDown($uid, $code, self::DIRECTION_UP, self::OPERATE_CANCEL);
+    }
+
+    public function feedDown($uid, $code)
+    {
+        return $this->feedUpDown($uid, $code, self::DIRECTION_DOWN);
+
+    }
+
+    public function cancelFeedDown($uid, $code)
+    {
+        return $this->feedUpDown($uid, $code, self::DIRECTION_DOWN, self::OPERATE_CANCEL);
+    }
+
+    private function feedUpDown($uid, $code, $direction = self::DIRECTION_UP, $operate = self::OPERATE_ADD)
+    {
+        $feed = $this->getFeedByKey($code);
+        return array();
+    }
+
+    public
+    function getFeedByBoard($bid, $order, $format = 'array')
     {
         $feed = Feed::where('bid', $bid)->orWhere('pid', $bid)->orderBy($order, 'DESC')->get();
 
