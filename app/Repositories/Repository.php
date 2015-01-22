@@ -12,6 +12,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Repository
 {
+    const FORMAT_OBJECT = 'object';
+    const FORMAT_ARRAY = 'array';
+
     /**
      * 成功返回
      *
@@ -63,7 +66,7 @@ class Repository
      *
      * @return array
      */
-    public static function format_result($data, $format = 'array')
+    public static function format_result($data, $format = self::FORMAT_ARRAY)
     {
         if ($format == 'array') {
             return method_exists($data, 'toArray') ? $data->toArray() : array();

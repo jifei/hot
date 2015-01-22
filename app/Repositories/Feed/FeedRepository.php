@@ -15,14 +15,11 @@ use Validator;
 use Auth;
 use DB;
 use PDO;
+use App\Repositories\Feed\UpDownRepository;
 
 
 class FeedRepository extends Repository
 {
-    const DIRECTION_UP = 1;//up
-    const DIRECTION_DOWN = -1;//down
-    const OPERATE_ADD = 1;//添加
-    const OPERATE_CANCEL = -1;//取消
 
     public function __construct(BoardRepository $board)
     {
@@ -68,7 +65,7 @@ class FeedRepository extends Repository
      *
      * @return array
      */
-    public function create($data, $format = 'array')
+    public function create($data, $format = self::FORMAT_ARRAY)
     {
         $data['uid'] = Auth::user()->uid;
         if (empty($data['board'])) {
@@ -108,7 +105,7 @@ class FeedRepository extends Repository
      *
      * @return array
      */
-    public function getFeedByKey($key, $format = 'array')
+    public function getFeedByKey($key, $format = self::FORMAT_ARRAY)
     {
         $feed = Feed::where('fkey', $key)->first();
 
@@ -125,7 +122,7 @@ class FeedRepository extends Repository
      *
      * @return array
      */
-    public function getFeedList($filter, $order, $limit = 50, $format = 'array')
+    public function getFeedList($filter, $order, $limit = 50, $format = self::FORMAT_ARRAY)
     {
         DB::setFetchMode(PDO::FETCH_ASSOC);
         $query = DB::table('feed as f')->select('f.title', 'f.link', 'f.up_num', 'f.down_num',
@@ -165,35 +162,8 @@ class FeedRepository extends Repository
     }
 
 
-    public function feedUp($uid, $code)
-    {
-        return $this->feedUpDown($uid, $code);
-    }
 
-    public function cancelFeedUp($uid, $code)
-    {
-        return $this->feedUpDown($uid, $code, self::DIRECTION_UP, self::OPERATE_CANCEL);
-    }
-
-    public function feedDown($uid, $code)
-    {
-        return $this->feedUpDown($uid, $code, self::DIRECTION_DOWN);
-
-    }
-
-    public function cancelFeedDown($uid, $code)
-    {
-        return $this->feedUpDown($uid, $code, self::DIRECTION_DOWN, self::OPERATE_CANCEL);
-    }
-
-    private function feedUpDown($uid, $code, $direction = self::DIRECTION_UP, $operate = self::OPERATE_ADD)
-    {
-        $feed = $this->getFeedByKey($code);
-        return array();
-    }
-
-    public
-    function getFeedByBoard($bid, $order, $format = 'array')
+    public function getFeedByBoard($bid, $order, $format = self::FORMAT_ARRAY)
     {
         $feed = Feed::where('bid', $bid)->orWhere('pid', $bid)->orderBy($order, 'DESC')->get();
 

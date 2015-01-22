@@ -35,21 +35,22 @@ class UserRepository extends Repository
     {
         //验证提示信息
         $messages = [
-            'email.required'    => '邮箱不能为空!',
-            'email.email'       => '邮箱地址不正确!!',
-            'email.unique'      => '邮箱已经存在!',
-            'email.max'         => '长度不能大于40个字符!',
+            'email.required' => '邮箱不能为空!',
+            'email.email'    => '邮箱地址不正确!!',
+            'email.unique'   => '邮箱已经存在!',
+            'email.max'      => '长度不能大于40个字符!',
         ];
 
         //验证规则
         $rules = [
-            'email'    => 'required|email|unique:user|max:40'
+            'email' => 'required|email|unique:user|max:40'
         ];
 
         return Validator::make($data, $rules, $messages);
     }
 
-    public function create($data){
+    public function create($data)
+    {
         return User::create($data);
     }
 
