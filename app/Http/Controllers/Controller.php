@@ -25,7 +25,7 @@ abstract class Controller extends BaseController
      */
     public static function ajaxFail($msg, $code = 400, $data = array())
     {
-        return Response::json(['code' => $code, 'data' => $data, 'msg' => $msg]);
+        return response()->json(['code' => $code, 'data' => $data, 'msg' => $msg]);
     }
 
     /**
@@ -38,7 +38,7 @@ abstract class Controller extends BaseController
      */
     public static function ajaxSuccess($data=array(), $code = 200, $msg = 'ok')
     {
-        return Response::json(['code' => $code, 'data' => $data, 'msg' => $msg]);
+        return response()->json(['code' => $code, 'data' => $data, 'msg' => $msg]);
     }
 
 }

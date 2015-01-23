@@ -8,6 +8,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\Feed\FeedRepository;
+use App\Repositories\Feed\UpDownRepository;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Request;
 
@@ -26,19 +27,45 @@ class FeedController extends Controller
         return view('home', array('feed_list' => $feed_list));
     }
 
+    /**
+     * up
+     * @return mixed
+     */
     public function up()
     {
-        if(!$this->login_user){
-            if(!Request::ajax()){
-
-            }
-            return response()->json();
-        }
+      return $this->up_or_down(UpDownRepository::DIRECTION_UP);
     }
 
+    /**
+     * down
+     * @return mixed
+     */
     public function down()
     {
+        return $this->up_or_down(UpDownRepository::DIRECTION_DOWN);
+    }
 
+    /**
+     * up or down
+     * @param int              $direction
+     * @param UpDownRepository $upDown
+     *
+     * @return mixed
+     */
+    private function up_or_down($direction = UpDownRepository::DIRECTION_UP, UpDownRepository $upDown)
+    {
+        if ($this->login_user && Request::ajax()) {
+            if ($direction == UpDownRepository::DIRECTION_UP) {
+                list($ok, $data, $msg) = $upDown->feedUp($this->login_user->uid, Input::get('fkey'));
+            } else {
+                list($ok, $data, $msg) = $upDown->feedDown($this->login_user->uid, Input::get('fkey'));
+            }
+            if(!$ok){
+                return self::ajaxFail($msg);
+            }
+            return self::ajaxSuccess($data);
+        }
+        return self::ajaxFail('非法操作');
     }
 
     public function detail()

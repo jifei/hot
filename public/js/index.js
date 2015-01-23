@@ -9,29 +9,47 @@ $(document).ready(function(){
      var vote_count = $count.text();
      var default_count = vote_count; 
      var add_class="";
-     if(class_name=="vote-up"&&$vote.hasClass("upmode")){  
-         vote_count--;
-     }else if(class_name=='vote-down'&&$vote.hasClass("downmode")){  
-         vote_count++;
-     }else if(class_name=="vote-up"){  
-         add_class = "upmode";
-         vote_count++;
-         if($vote.hasClass("downmode")){ 
-           vote_count++;
-         }
-     }else if(class_name=="vote-down"){  
-         add_class = "downmode";
-         vote_count--;
-         if($vote.hasClass("upmode")){ 
-           vote_count--;
-         }
-     }
-     //alert(vote_count-default_count);    用户操作记录表 uid,fid value -1,0,1
-     $vote.removeClass("upmode").removeClass("downmode"); 
-     $count.text(vote_count);
-     if(add_class!= ""){  
-        $vote.addClass(add_class);
-     }
+      var fkey = $(this).closest(".feed-item").attr("data-id");
+      $.ajax({
+          url: "test.html",
+          type: 'POST',
+          data: {fkey:fkey},
+          dataType:'json',
+          success:function(response){
+              if(response.code ==200){
+                  if(class_name=="vote-up"&&$vote.hasClass("upmode")){
+                      vote_count--;
+                  }else if(class_name=='vote-down'&&$vote.hasClass("downmode")){
+                      vote_count++;
+                  }else if(class_name=="vote-up"){
+                      add_class = "upmode";
+                      vote_count++;
+                      if($vote.hasClass("downmode")){
+                          vote_count++;
+                      }
+                  }else if(class_name=="vote-down"){
+                      add_class = "downmode";
+                      vote_count--;
+                      if($vote.hasClass("upmode")){
+                          vote_count--;
+                      }
+                  }
+                  //alert(vote_count-default_count);    用户操作记录表 uid,fid value -1,0,1
+                  $vote.removeClass("upmode").removeClass("downmode");
+                  $count.text(vote_count);
+                  if(add_class!= ""){
+                      $vote.addClass(add_class);
+                  }
+              }else{
+                  alert(response.msg);
+              }
+          },
+          error:function(){
+              alert('非法操作');
+          }
+
+      });
+
 
   });
 
