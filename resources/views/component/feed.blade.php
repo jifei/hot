@@ -21,7 +21,7 @@
             <a href="/b/{{$feed['board_code']}}">{{$feed['board_name']}}</a>
           </div>
             <div class="feed-handle">
-               <a href="/f/{{$feed['fkey']}}/comment" target="_blank">评论</a><span class="separator">|</span><a>分享</a><span class="separator">|</span><a>收藏</a><span class="separator">|</span>举报&nbsp;
+               <a class="add-feed" @if(!empty($is_detail)) href="javascript:void(0);" @else href="/f/{{$feed['fkey']}}/comment" target="_blank" @endif>评论</a><span class="separator">|</span><a>分享</a><span class="separator">|</span><a>收藏</a><span class="separator">|</span>举报&nbsp;
             </div>
         </div>
     </div>
