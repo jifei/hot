@@ -24,6 +24,7 @@ Route::post('f/down', 'FeedController@down');
 Route::get('api', 'Api\IndexController@index');
 Route::get('admin', 'Admin\IndexController@index');
 Route::get('/f/{key}', 'FeedController@detail');
+Route::get('/f/{key}/comment', 'FeedController@detail');
 Route::get('/l/{key}', 'FeedController@link');
 Route::get('/b/search', 'BoardController@search');
 Route::get('/b/{key}', 'FeedController@list');
@@ -31,7 +32,7 @@ Route::get('/b/{key}', 'FeedController@list');
 $ApiRoute = function () {
 };
 Route::group(['domain' => 'api.redudian.com'], $ApiRoute);
-Route::group(['domain' => 'test.redudian.com'], $ApiRoute);
+Route::group(['domain' => 'test.api.redudian.com'], $ApiRoute);
 
 
 

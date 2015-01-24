@@ -17,7 +17,7 @@
         <div class="feed-extend">
           <div class="feed-from">
             <span>{{$feed['created_at']}}</span>&nbsp;&nbsp;
-            <a href="">{{$feed['nickname']}}</a>&nbsp;通过手机发布至&nbsp;
+            <a href="">{!!$feed['nickname']!!}</a>&nbsp;通过手机发布至&nbsp;
             <a href="/b/{{$feed['board_code']}}">{{$feed['board_name']}}</a>
           </div>
             <div class="feed-handle">

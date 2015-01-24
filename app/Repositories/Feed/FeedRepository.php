@@ -113,6 +113,28 @@ class FeedRepository extends Repository
     }
 
     /**
+     * 详细
+     *
+     * @param $key
+     *
+     * @return array
+     */
+    public function getFeedDetail($key)
+    {
+        $feed = $this->getFeedByKey($key, self::FORMAT_OBJECT);
+        $ret  = array();
+        if ($feed) {
+            $ret               = $feed->toArray();
+            $ret['nickname']   = $feed->user->nickname;
+            $ret['board_name'] = $feed->board->name;
+            $ret['board_code'] = $feed->board->code;
+        }
+
+        return $ret;
+
+    }
+
+    /**
      * 获取热点列表
      *
      * @param        $filter
@@ -125,7 +147,7 @@ class FeedRepository extends Repository
     public function getFeedList($filter, $order, $limit = 50, $format = self::FORMAT_ARRAY)
     {
         DB::setFetchMode(PDO::FETCH_ASSOC);
-        $query = DB::table('feed as f')->select('f.fkey','f.title', 'f.domain', 'f.up_num', 'f.down_num',
+        $query = DB::table('feed as f')->select('f.fkey', 'f.title', 'f.domain', 'f.up_num', 'f.down_num',
             'f.created_at', 'u.nickname', 'b.name as board_name', 'b.code as board_code');
         $query->leftJoin('user as u', 'f.uid', '=', 'u.uid');
         $query->leftJoin('board as b', 'f.bid', '=', 'b.bid');
@@ -139,28 +161,11 @@ class FeedRepository extends Repository
         if (!in_array($order, ['fid', ''])) {
             $order = 'fid';
         }
+        $query->where('f.status', 1);
         $query->orderBy('f.' . $order, 'DESC');
 
-        return $ret = $query->get();
-        DB::setFetchMode(PDO::FETCH_CLASS);
-        var_dump($ret);
-        exit;
-        $feed = new Feed();
-        $feed->join('user', 'user.uid', '=', 'feed.uid');
-        $ret     = $feed->get()->toArray();
-        $queries = DB::getQueryLog();
-        echo $last_query = end($queries);
-
-        //dd($last_query);
-
-        return $ret;
-
-
-        $result = $feed->where('feed.status', 1)->orderBy('feed.' . $order, 'DESC')->limit($limit)->get(array('feed.*', 'user.nickname'));
-
-        return self::format_result($result, $format);
+        return $query->get();
     }
-
 
 
     public function getFeedByBoard($bid, $order, $format = self::FORMAT_ARRAY)

@@ -300,3 +300,8 @@ body .jump-link{
     border: 1px solid #d9d9d9;
     padding: 2px 5px;
 }
+
+.comment textarea{
+    width: 500px;
+    height: 100px;
+}

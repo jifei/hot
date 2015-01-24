@@ -72,10 +72,22 @@ class FeedController extends Controller
         return self::ajaxFail('非法操作');
     }
 
+    /**
+     * 详情
+     * @return \Illuminate\View\View
+     */
     public function detail()
     {
-        $data = $this->feed->getFeedByKey(Request::segment(2));
-        var_dump($data);
+        $feed = $this->feed->getFeedDetail(Request::segment(2));
+        if (!$feed || $feed['status'] != 1) {
+            return view('errors.404');
+        }
+        $show_comment = 0;
+        if (Request::segment(3) == 'comment') {
+            $show_comment = 1;
+        }
+
+        return view('feedDetail', array('feed' => $feed, 'show_comment' => $show_comment));
     }
 
     /**
