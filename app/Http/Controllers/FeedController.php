@@ -14,9 +14,11 @@ use Illuminate\Support\Facades\Request;
 
 class FeedController extends Controller
 {
-    public function __construct(FeedRepository $feed)
+    public function __construct(FeedRepository $feed, UpDownRepository $up_down)
     {
+        parent::__construct();
         $this->feed = $feed;
+        $this->up_down =$up_down;
         $this->middleware('auth', ['only' => ['add', 'up', 'down']]);
     }
 
@@ -48,17 +50,16 @@ class FeedController extends Controller
     /**
      * up or down
      * @param int              $direction
-     * @param UpDownRepository $upDown
      *
      * @return mixed
      */
-    private function up_or_down($direction = UpDownRepository::DIRECTION_UP, UpDownRepository $upDown)
+    private function up_or_down($direction = UpDownRepository::DIRECTION_UP)
     {
         if ($this->login_user && Request::ajax()) {
             if ($direction == UpDownRepository::DIRECTION_UP) {
-                list($ok, $data, $msg) = $upDown->feedUp($this->login_user->uid, Input::get('fkey'));
+                list($ok, $data, $msg) = $this->up_down->feedUp($this->login_user->uid, Input::get('fkey'));
             } else {
-                list($ok, $data, $msg) = $upDown->feedDown($this->login_user->uid, Input::get('fkey'));
+                list($ok, $data, $msg) = $this->up_down->feedDown($this->login_user->uid, Input::get('fkey'));
             }
             if(!$ok){
                 return self::ajaxFail($msg);

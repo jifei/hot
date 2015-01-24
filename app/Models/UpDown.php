@@ -18,7 +18,7 @@ class UpDown extends Model{
      *
      * @var array
      */
-    protected $fillable = ['fid','uid', 'type','status'];
+    protected $fillable = ['fid','uid', 'direction','status'];
 
     //黑名单
     // protected $guarded = array('fid');

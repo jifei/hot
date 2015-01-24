@@ -4,8 +4,9 @@
     <div id="content-container">
         <div id="timeline">
       @foreach ($feed_list as $feed)
-            <div class="feed-item">
-                <div class="vote">
+            <div class="feed-item" data-id="{{$feed['fkey']}}">
+                <div class="vote @if($feed['up_num']-$feed['down_num']>0) upmode
+                   @elseif($feed['up_num']-$feed['down_num']<0) downmode @endif">
                     <a class="vote-up"></a>
 
                     <div class="vote-count">{{$feed['up_num']-$feed['down_num']}}</div>

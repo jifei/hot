@@ -125,7 +125,7 @@ class FeedRepository extends Repository
     public function getFeedList($filter, $order, $limit = 50, $format = self::FORMAT_ARRAY)
     {
         DB::setFetchMode(PDO::FETCH_ASSOC);
-        $query = DB::table('feed as f')->select('f.title', 'f.link', 'f.up_num', 'f.down_num',
+        $query = DB::table('feed as f')->select('f.fkey','f.title', 'f.link', 'f.up_num', 'f.down_num',
             'f.created_at', 'u.nickname', 'b.name as board_name', 'b.code as board_code');
         $query->leftJoin('user as u', 'f.uid', '=', 'u.uid');
         $query->leftJoin('board as b', 'f.bid', '=', 'b.bid');

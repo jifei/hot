@@ -19,6 +19,8 @@ Route::get('f/get', 'FeedController@get');
 Route::get('f/index', 'FeedController@index');
 
 Route::post('f/add', 'FeedController@add');
+Route::post('f/up', 'FeedController@up');
+Route::post('f/down', 'FeedController@down');
 Route::get('api', 'Api\IndexController@index');
 Route::get('admin', 'Admin\IndexController@index');
 Route::get('/f/{key}', 'FeedController@detail');

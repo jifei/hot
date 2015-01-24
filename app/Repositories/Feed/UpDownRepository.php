@@ -28,15 +28,38 @@ class UpDownRepository extends Repository
      *
      * @param        $uid
      * @param        $fid
+     * @param array  $filter
      * @param string $format
      *
      * @return array
      */
-    public function getUpDown($uid, $fid, $format = self::FORMAT_ARRAY)
+    public function getUpDown($uid, $fid, $filter = array(), $format = self::FORMAT_ARRAY)
     {
-        $feed = UpDown::where('fid', $fid)->where('uid', $uid)->where('status', 1)->first();
+        $up_down = UpDown::where('fid', $fid)->where('uid', $uid);
+        if (!empty($filter['direction'])) {
+            $up_down->where('direction', $filter['direction']);
+        }
+        if (isset($filter['status'])) {
+            $up_down->where('status', $filter['status']);
+        } else {
+            $up_down->where('status', 1);
+        }
+        $ret = $up_down->orderBy('id', 'desc')->first();
 
-        return self::format_result($feed, $format);
+        return self::format_result($ret, $format);
+    }
+
+    /**
+     * 用户单条操作次数
+     *
+     * @param $uid
+     * @param $fid
+     *
+     * @return mixed
+     */
+    public function userFeedUpDownNum($uid, $fid)
+    {
+        return UpDown::where('fid', $fid)->where('uid', $uid)->count();
     }
 
     /**
@@ -90,25 +113,33 @@ class UpDownRepository extends Repository
         if ($feed->uid == $data['uid']) {
             return self::fail('自己不能操作');
         }
-        $upDown = $this->getUpDown($data['uid'], $data['fid'], self::FORMAT_OBJECT);
+        $up_down = $this->getUpDown($data['uid'], $data['fid'], array('status' => 1), self::FORMAT_OBJECT);
         //已经操作过
-        if ($upDown) {
-            //减少原来操作
-            if ($upDown->direction == self::DIRECTION_DOWN) {
-                --$feed->down_num;
-            } else {
-                --$feed->up_num;
+        if ($up_down) {
+            $operate_num = $this->userFeedUpDownNum($data['uid'], $data['fid']);
+            if ($operate_num > 10) {
+                return self::fail('抱歉，您操作的次数过多');
             }
-            //反向操作，增加现在操作
-            if ($upDown->direction != $data['direction']) {
-                if ($upDown->direction == self::DIRECTION_DOWN) {
+            //相同操作
+            if ($up_down->direction == $data['direction']) {
+                if ($up_down->direction == self::DIRECTION_DOWN) {
+                    --$feed->down_num;
+                } else {
+                    --$feed->up_num;
+                }
+            } //反向操作
+            else if ($up_down->direction != $data['direction']) {
+                if ($up_down->direction == self::DIRECTION_DOWN) {
                     ++$feed->up_num;
+                    --$feed->down_num;
                 } else {
                     ++$feed->down_num;
+                    --$feed->up_num;
                 }
+                UpDown::create($data);
             }
-            $upDown->status = -1;
-            $upDown->save();
+            $up_down->status = -1;
+            $up_down->save();
 
         } else {//未操作过
             if ($data['direction'] == self::DIRECTION_DOWN) {
@@ -116,15 +147,11 @@ class UpDownRepository extends Repository
             } else {
                 ++$feed->up_num;
             }
+            UpDown::create($data);
         }
         $feed->save();
 
-        $data['status'] = 1;
-        $ret            = UpDown::create($data);
-        if (!$ret) {
-            return self::fail('操作失败');
-        }
 
-        return self::success(self::format_result($ret, $format));
+        return self::success(self::format_result($feed, $format));
     }
 }

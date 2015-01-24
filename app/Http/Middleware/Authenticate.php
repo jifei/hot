@@ -37,7 +37,7 @@ class Authenticate implements Middleware {
 		{
 			if ($request->ajax())
 			{
-				return response('请先登录', 401);
+				return response()->json(array('msg'=>'请先登录', 'code'=>401));
 			}
 			else
 			{
