@@ -11,4 +11,5 @@
 {!!HTML::style('css/jqcloud.css')!!}
 {!! HTML::style('jquery-ui/jquery-ui.min.css')!!}
 {!! HTML::style('css/global.css')!!}
+{!! HTML::style('font-awesome-4.3.0/css/font-awesome.min.css')!!}
 <title>热度点</title>

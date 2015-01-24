@@ -17,8 +17,8 @@ class FeedController extends Controller
     public function __construct(FeedRepository $feed, UpDownRepository $up_down)
     {
         parent::__construct();
-        $this->feed = $feed;
-        $this->up_down =$up_down;
+        $this->feed    = $feed;
+        $this->up_down = $up_down;
         $this->middleware('auth', ['only' => ['add', 'up', 'down']]);
     }
 
@@ -35,7 +35,7 @@ class FeedController extends Controller
      */
     public function up()
     {
-      return $this->up_or_down(UpDownRepository::DIRECTION_UP);
+        return $this->up_or_down(UpDownRepository::DIRECTION_UP);
     }
 
     /**
@@ -49,7 +49,8 @@ class FeedController extends Controller
 
     /**
      * up or down
-     * @param int              $direction
+     *
+     * @param int $direction
      *
      * @return mixed
      */
@@ -61,11 +62,13 @@ class FeedController extends Controller
             } else {
                 list($ok, $data, $msg) = $this->up_down->feedDown($this->login_user->uid, Input::get('fkey'));
             }
-            if(!$ok){
+            if (!$ok) {
                 return self::ajaxFail($msg);
             }
+
             return self::ajaxSuccess($data);
         }
+
         return self::ajaxFail('非法操作');
     }
 
@@ -73,6 +76,18 @@ class FeedController extends Controller
     {
         $data = $this->feed->getFeedByKey(Request::segment(2));
         var_dump($data);
+    }
+
+    /**
+     * 跳转
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function link()
+    {
+        $data = $this->feed->getFeedByKey(Request::segment(2));
+        if (!empty($data['link'])) {
+            return redirect($data['link']);
+        }
     }
 
     public function add()

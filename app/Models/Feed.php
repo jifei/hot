@@ -28,7 +28,7 @@ class Feed extends Model{
 	 *
 	 * @var array
 	 */
-	protected $hidden = [];
+	protected $hidden = ['fid','deleted_at'];
 
 
 }

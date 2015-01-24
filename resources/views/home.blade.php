@@ -4,33 +4,8 @@
     <div id="content-container">
         <div id="timeline">
       @foreach ($feed_list as $feed)
-            <div class="feed-item" data-id="{{$feed['fkey']}}">
-                <div class="vote @if($feed['up_num']-$feed['down_num']>0) upmode
-                   @elseif($feed['up_num']-$feed['down_num']<0) downmode @endif">
-                    <a class="vote-up"></a>
-
-                    <div class="vote-count">{{$feed['up_num']-$feed['down_num']}}</div>
-                    <a class="vote-down"></a>
-                </div>
-
-                <div class="feed">
-                    <div class="feed-content"><a href="http://toutiao.com/group/3460056296/">{{$feed['title']}}</a>
-                    </div>
-                    <div class="feed-extend">
-
-                        <div class="feed-from"><span>{{$feed['created_at']}}</span>&nbsp;&nbsp;<a href="">{{$feed['nickname']}}</a>&nbsp;通过手机发布至&nbsp;<a
-                                href="/b/{{$feed['board_code']}}">{{$feed['board_name']}}</a></div>
-
-                        <div class="feed-handle"><a>评论</a><span class="separator">|</span><a>分享</a><span
-                                class="separator">|</span><a>收藏</a><span class="separator">|</span>举报&nbsp;
-                        </div>
-                    </div>
-                </div>
-                <div class="clear"></div>
-            </div>
+        @include('component.feed',array('feed'=>$feed))
       @endforeach
-
-
         </div>
         <div id="dashboard-right">
             <div id="tagscloud">

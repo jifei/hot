@@ -151,7 +151,8 @@ class UpDownRepository extends Repository
         }
         $feed->save();
 
+        $result = array('up_num' => $feed->up_num, 'down_num' => $feed->down_num);
 
-        return self::success(self::format_result($feed, $format));
+        return self::success($result);
     }
 }

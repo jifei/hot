@@ -24,6 +24,7 @@ Route::post('f/down', 'FeedController@down');
 Route::get('api', 'Api\IndexController@index');
 Route::get('admin', 'Admin\IndexController@index');
 Route::get('/f/{key}', 'FeedController@detail');
+Route::get('/l/{key}', 'FeedController@link');
 Route::get('/b/search', 'BoardController@search');
 Route::get('/b/{key}', 'FeedController@list');
 

@@ -281,3 +281,22 @@ form.navbar-search{
 #publishModal .input-xlarge{
     width: 350px;
 }
+
+.domain {
+    color: #888;
+    font-size: 12px;
+    white-space: nowrap;
+    margin-left: 3px;
+}
+
+#content .domain a{
+    color: #888;
+}
+
+body .jump-link{
+    margin-left: 8px;
+    font-size: 12px;
+    background-color: #f2f2f5;
+    border: 1px solid #d9d9d9;
+    padding: 2px 5px;
+}

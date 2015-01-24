@@ -21,22 +21,11 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response.code == 200) {
-                    if (class_name == "vote-up" && $vote.hasClass("upmode")) {
-                        vote_count--;
-                    } else if (class_name == 'vote-down' && $vote.hasClass("downmode")) {
-                        vote_count++;
-                    } else if (class_name == "vote-up") {
+                    var vote_count = response.data.up_num - response.data.down_num;
+                    if(vote_count>0){
                         add_class = "upmode";
-                        vote_count++;
-                        if ($vote.hasClass("downmode")) {
-                            vote_count++;
-                        }
-                    } else if (class_name == "vote-down") {
+                    }else if(vote_count<0){
                         add_class = "downmode";
-                        vote_count--;
-                        if ($vote.hasClass("upmode")) {
-                            vote_count--;
-                        }
                     }
                     //alert(vote_count-default_count);    用户操作记录表 uid,fid value -1,0,1
                     $vote.removeClass("upmode").removeClass("downmode");
