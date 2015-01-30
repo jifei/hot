@@ -15,7 +15,7 @@ class CreateBoardTable extends Migration {
 		//
         Schema::create('board', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('bid')->comment('热点ID');
+            $table->increments('bid')->comment('热度点ID');
             $table->string('name',100)->unique()->comment('版块名称');
             $table->string('code',20)->unique()->comment('版块code');
             $table->bigInteger('pid')->default(0)->index()->comment('父ID');

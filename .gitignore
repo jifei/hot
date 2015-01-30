@@ -2,3 +2,5 @@
 .env
 composer.lock
 .gitignore
+
+/config/mail.php

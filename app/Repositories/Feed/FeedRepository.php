@@ -36,9 +36,9 @@ class FeedRepository extends Repository
     {
         //验证提示信息
         $messages = [
-            'title.required' => '热点不能为空!',
-            'title.min'      => '热点长度偏短',
-            'title.max'      => '热点长度过长',
+            'title.required' => '热度点不能为空!',
+            'title.min'      => '热度点长度偏短',
+            'title.max'      => '热度点长度过长',
             'uid.required'   => '非法用户',
             'bid.required'   => '版块非法',
             'uid.integer'    => '非法用户!',
@@ -90,11 +90,27 @@ class FeedRepository extends Repository
             }
             $data['domain'] = $parse_url['host'];
         }
+        $data['title']  = $this->parseFeed($data['title']);
         $data['fkey']   = generate_feed_key();
         $data['status'] = 1;
         $ret            = Feed::create($data);
 
         return self::success(self::format_result($ret, $format));
+    }
+
+    private function parseFeed($feed)
+    {
+        $feed = htmlspecialchars($feed,ENT_QUOTES);
+        return preg_replace_callback(
+            "/([^A-Za-z0-9_\x{4e00}-\x{9fa5}]#|^#)([#A-Za-z0-9_\x{4e00}-\x{9fa5}]+)/u",
+            function ($matches) {
+                if (stripos($matches[2], '#') !== false) {
+                    return $matches[0];
+                }
+
+                return substr($matches[1], 0, -1) . "<a href=\"/hashtag/".$matches[2]."?source=feed\"><s>#</s><b>" . $matches[2] . "</b></a>";
+            },
+            $feed);
     }
 
     /**
@@ -135,17 +151,18 @@ class FeedRepository extends Repository
     }
 
     /**
-     * 获取热点列表
+     * 获取热度点列表
      *
      * @param        $filter
-     * @param        $order
-     * @param int    $limit
-     * @param string $format
+     * @param string $order
+     * @param int    $page
+     * @param int    $page_size
      *
      * @return array
      */
-    public function getFeedList($filter, $order, $limit = 50, $format = self::FORMAT_ARRAY)
+    public function getFeedList($filter, $order = 'fid', $page = 1, $page_size = 50)
     {
+        $page = max(1, min(20, intval($page)));
         DB::setFetchMode(PDO::FETCH_ASSOC);
         $query = DB::table('feed as f')->select('f.fkey', 'f.title', 'f.domain', 'f.up_num', 'f.down_num',
             'f.created_at', 'u.nickname', 'b.name as board_name', 'b.code as board_code');
@@ -153,16 +170,17 @@ class FeedRepository extends Repository
         $query->leftJoin('board as b', 'f.bid', '=', 'b.bid');
 
         if (!empty($filter['board'])) {
-            $board = $this->board->getBoardByName($filter['board']);
+            $board = $this->board->getBoardByCode($filter['board']);
             if (!empty($board['bid'])) {
                 $query->where('f.bid', $board['bid']);
             }
         }
-        if (!in_array($order, ['fid', ''])) {
+        if (!in_array($order, ['fid'])) {
             $order = 'fid';
         }
         $query->where('f.status', 1);
         $query->orderBy('f.' . $order, 'DESC');
+        $query->skip(($page - 1) * $page_size)->take($page_size);
 
         return $query->get();
     }

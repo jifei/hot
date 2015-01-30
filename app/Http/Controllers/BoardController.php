@@ -9,14 +9,43 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\Board\BoardRepository;
-use Illuminate\Support\Facades\DB;
+use App\Repositories\Feed\FeedRepository;
 use Input;
+use Request;
 
 class BoardController extends Controller
 {
-    public function __construct(BoardRepository $board)
+    public function __construct(BoardRepository $board, FeedRepository $feed)
     {
         $this->board = $board;
+        $this->feed  = $feed;
+    }
+
+    public function index()
+    {
+
+    }
+
+    public function feed()
+    {
+
+        $code  = Request::segment(2);
+        $board = $this->board->getBoardByCode($code);
+        if (!$board || $board['status'] != 1) {
+            view('error.404');
+        }
+        $top_board = 0;
+        if ($board['pid'] == 0) {
+            $top_board = $board['bid'];
+        } else {
+            $top_board = $board['pid'];
+        }
+        list($page) = self::getPage();
+        $page_size = 50;
+        $feed_list = $this->feed->getFeedList(array('board' => $code), '', $page, $page_size);
+
+        return view('home', array('feed_list' => $feed_list, 'top_board' => $top_board));
+
     }
 
     public function search()
@@ -32,8 +61,9 @@ class BoardController extends Controller
     public function add()
     {
         $data = [
-            ['id' => '1', 'name' => '新闻', 'code' => 'news', 'display_sort' => 1],
-            ['id' => '2', 'name' => '搞笑', 'code' => 'funny', 'display_sort' => 2],
+            ['pid' => '2', 'name' => '自媒体', 'code' => 'news', 'display_sort' => 1],
+            ['pid' => '3', 'name' => '笑话', 'code' => 'funny', 'display_sort' => 2],
+            ['pid' => '3', 'name' => '段子', 'code' => 'duanzi', 'display_sort' => 2],
             ['id' => '3', 'name' => '八卦', 'code' => 'bagua', 'display_sort' => 3],
             ['id' => '4', 'name' => '娱乐', 'code' => 'ent', 'display_sort' => 4],
             ['id' => '5', 'name' => '情感', 'code' => 'emotion', 'display_sort' => 5],

@@ -1,5 +1,5 @@
 @include('includes.head')
-@include('includes.navbar')
+@include('includes.navbar',array('top_board'=>isset($top_board)?$top_board:0))
 <div id="content">
     <div id="content-container">
         <div id="timeline">

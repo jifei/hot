@@ -8,7 +8,7 @@ class CreateFeedTable extends Migration
 
     /**
      * Run the migrations.
-     * 热点表
+     * 热度点表
      * @return void
      */
     public function up()
@@ -16,7 +16,7 @@ class CreateFeedTable extends Migration
         //
         Schema::create('feed', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->bigIncrements('fid')->comment('热点ID');
+            $table->bigIncrements('fid')->comment('热度点ID');
             $table->string('fkey',12)->unique()->comment('fkey');
             $table->bigInteger('uid')->index()->comment('用户ID');
             $table->integer('bid')->index()->comment('版块ID');

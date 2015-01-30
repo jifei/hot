@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
+Route::get('/', 'FeedController@index');
 
 Route::get('home', 'HomeController@index');
 Route::get('home/info', 'HomeController@info');
@@ -28,7 +28,7 @@ Route::get('/f/{key}', 'FeedController@detail');
 Route::get('/f/{key}/comment', 'FeedController@detail');
 Route::get('/l/{key}', 'FeedController@link');
 Route::get('/b/search', 'BoardController@search');
-Route::get('/b/{key}', 'FeedController@list');
+Route::get('/b/{key}', 'BoardController@feed');
 
 $ApiRoute = function () {
 };

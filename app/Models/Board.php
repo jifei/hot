@@ -1,7 +1,6 @@
 <?php namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
 class Board extends Model{
 
 	/**
@@ -30,5 +29,8 @@ class Board extends Model{
 	 */
 	protected $hidden = [];
 
-
+    public function board()
+    {
+        return $this->belongsTo('Board','bid');
+    }
 }

@@ -21,7 +21,7 @@ class NavbarComposer
 
     public function compose(View $view)
     {
-        $view->with('top_boards',$this->board->getTopBoards())
-             ->with('user',Auth::user());
+        $view->with('top_boards', $this->board->getTopBoards())
+            ->with('user', Auth::user());
     }
 }

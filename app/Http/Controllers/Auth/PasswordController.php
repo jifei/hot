@@ -23,6 +23,10 @@ class PasswordController extends Controller
 
     use ResetsPasswords;
 
+    /**
+     * @param Guard          $auth
+     * @param PasswordBroker $passwords
+     */
     public function __construct(Guard $auth, PasswordBroker $passwords)
     {
         $this->auth      = $auth;

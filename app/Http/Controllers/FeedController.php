@@ -24,7 +24,9 @@ class FeedController extends Controller
 
     public function index()
     {
-        $feed_list = $this->feed->getFeedList(Input::get('1'), 'fid', 50);
+        list($page) = self::getPage();
+        $page_size = 50;
+        $feed_list = $this->feed->getFeedList(array(), 'fid', $page, $page_size);
 
         return view('home', array('feed_list' => $feed_list));
     }

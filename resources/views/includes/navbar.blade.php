@@ -9,9 +9,9 @@
             <a class="brand" href="http://www.redudian.com" >热度点</a>
             <div class="nav-collapse collapse navbar-responsive-collapse">
                 <ul class="nav">
-                    <li><a href="/">首页</a></li>
+                    <li @if(isset($top_board)&&$top_board==0)class="active"@endif><a href="/">首页</a></li>
                     @foreach($top_boards as $v)
-                       <li><a href="/b/{{$v['code']}}">{{$v['name']}}</a></li>
+                       <li @if(isset($top_board)&&$top_board==$v['bid'])class="active"@endif><a href="/b/{{$v['code']}}">{{$v['name']}}</a></li>
                     @endforeach
                     {{--<li class="dropdown">--}}
                         {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">版块<b class="caret"></b></a>--}}
@@ -22,7 +22,7 @@
                             {{--<li><a href="#">更多>></a></li>--}}
                         {{--</ul>--}}
                     {{--</li>--}}
-                    <li><a href="/more">更多>></a></li>
+                    <li ><a href="/more">更多>></a></li>
                 </ul>
                 <form class="navbar-search pull-left" action="">
                     <input  type="text" class="search-query" maxlength="15" placeholder="搜索">
@@ -48,4 +48,12 @@
             </div><!-- /.nav-collapse -->
         </div>
     </div><!-- /navbar-inner -->
+</div>
+<div class="nav-second">
+   <ul>
+      <li><a>搞笑</a></li>
+      <li><a>搞笑</a></li>
+      <li><a>搞笑</a></li>
+      <li><a>搞笑</a></li>
+   </ul>
 </div>

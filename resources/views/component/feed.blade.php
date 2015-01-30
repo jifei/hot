@@ -8,7 +8,7 @@
 
     <div class="feed">
         <div class="feed-content">
-           <a href="/f/{{$feed['fkey']}}" target="_blank">{{$feed['title']}}</a>
+           {!!$feed['title']!!}<a href="/f/{{$feed['fkey']}}" target="_blank"></a>
            @if(!empty($feed['domain']))
                 <a href="/l/{{$feed['fkey']}}" target="_blank" class="jump-link"><i class="fa fa-link"></i>&nbsp;网页链接</a>
                 <span class="domain">(<a>{{$feed['domain']}}</a>)</span>
