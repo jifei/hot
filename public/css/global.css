@@ -381,11 +381,8 @@ body .jump-link {
     background: #f9de99;
     /*background: -webkit-gradient(linear, center top, center bottom, from(#dce6f8), to(#bdcff1));*/
     /*background: -webkit-linear-gradient(#dce6f8, #bdcff1);*/
-    -webkit-border-radius: 2px;
+    /*-webkit-border-radius: 2px;*/
     /*-webkit-box-shadow: 0 0 0 1px #a3bcea;*/
-}
-#publishModal .highlighter{
-    color: transparent;
 }
 
 #publishModal pre,#publishModal textarea{
@@ -405,5 +402,11 @@ body .jump-link {
     font-weight: normal;
 }
 .feed-content b:hover{
-    text-decoration:underline
+    text-decoration:underline;
+}
+#publishModal pre.highlighter{
+    color: #fff;
+}
+#publishModal pre b{
+    color: #f9de99;
 }

@@ -72,7 +72,7 @@ class AuthController extends Controller
             $ckname = $this->auth->getRecallerName();
             Cookie::queue($ckname, Cookie::get($ckname), self::REMEMBER_TIME);
 
-            return redirect('/home');
+            return redirect('/');
         }
     }
 
@@ -91,6 +91,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         //登录成功
         if ($this->auth->attempt($credentials, $request->has('remember'))) {
+            $this->redirectTo = '/';
             if ($request->has('remember')) {
                 $ckname = $this->auth->getRecallerName();
                 Cookie::queue($ckname, Cookie::get($ckname), self::REMEMBER_TIME);

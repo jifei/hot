@@ -8,20 +8,20 @@
             <div class="control-group">
                 <!--                <label class="control-label">标题</label>-->
                 <div class="controls">
-                    <span style="padding-right:20px;">热度点</span>
-                    <pre class="highlighter" style="display:inline-block;vertical-align: middle;height: 120px; width: 350px; border: 1px solid #fff; margin: 0px 0px 0px -15px; padding: 4px 6px; z-index: -1;  font-size: 14px; white-space: pre-wrap; word-wrap: break-word; background:#fff;"></pre>
-                    <textarea type="text" rows="4" name="title" class="input-xlarge" style="background: transparent;margin-top: -152px;height:120px;margin-left: 52px;"></textarea>
+                    <span style="display:inline-block;width: 60px;">热度点</span>
+                    <pre class="highlighter" style="display: block;float: left;vertical-align: middle;height: 120px; width: 350px; border: 1px solid #fff; position: absolute;left: 119px;top:15px; padding: 4px 6px; z-index: -1;  font-size: 14px; background:#fff;"></pre>
+                    <textarea type="text" rows="4" name="title" class="input-xlarge" style="background: transparent;height:120px;"></textarea>
                 </div>
             </div>
             <div class="control-group">
                 <div class="controls">
-                    <span style="padding-right:20px;">链接</span>
+                    <span style="display:inline-block;width: 60px;">链接</span>
                     <input type="text" name="link" class="input-xlarge">
                 </div>
             </div>
             <div class="control-group">
                 <div class="controls">
-                    <span style="padding-right:20px;">版块</span>
+                    <span style="display:inline-block;width: 60px;">版块</span>
                     <input id="linkSelectSection" type="text" name="board" class="input-xlarge">
                 </div>
             </div>
@@ -106,6 +106,7 @@
                   if(data.code==200){
                      alert("发布成功");
                     $("#publishModal").modal("hide");
+                    window.location.reload();
                   }else{
                     alert(data.msg);
                   }

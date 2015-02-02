@@ -40,7 +40,7 @@ class RedirectIfAuthenticated implements Middleware {
             if($request->ajax()){
                return Response::json(['code'=>403,'data'=>[],'msg'=>'已经登录']);
             }
-			return new RedirectResponse(url('/home'));
+			return new RedirectResponse(url('/'));
 		}
 
 		return $next($request);

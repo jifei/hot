@@ -9,6 +9,7 @@ namespace App\Repositories\Feed;
 
 use App\Models\Board;
 use App\Models\Feed;
+use App\Models\HashtagFeed;
 use App\Repositories\Repository;
 use App\Repositories\Board\BoardRepository;
 use Validator;
@@ -21,9 +22,34 @@ use App\Repositories\Feed\UpDownRepository;
 class FeedRepository extends Repository
 {
 
+    private $hashtags = array();
+
     public function __construct(BoardRepository $board)
     {
         $this->board = $board;
+    }
+
+    private function parseFeed($feed)
+    {
+        $feed = htmlspecialchars($feed, ENT_QUOTES);
+
+        return preg_replace_callback(
+            "/([^A-Za-z0-9_\x{4e00}-\x{9fa5}]#|^#)([#A-Za-z0-9_\x{4e00}-\x{9fa5}]+)/u",
+            function ($matches) {
+                if (stripos($matches[2], '#') !== false) {
+                    return $matches[0];
+                }
+
+                $this->hashtags[] = $matches[2];
+
+                return substr($matches[1], 0, -1) . "<a href=\"/hashtag/" . $matches[2] . "?source=feed\"><s>#</s><b>" . $matches[2] . "</b></a>";
+            },
+            $feed);
+    }
+
+    private function unique_hashtag()
+    {
+        $this->hashtags = array_unique($this->hashtags);
     }
 
     public function all()
@@ -55,6 +81,20 @@ class FeedRepository extends Repository
         ];
 
         return Validator::make($data, $rules, $messages);
+    }
+
+
+    private function afterCreateFeed($feed)
+    {
+        if ($feed) {
+            //话题
+            if (count($this->hashtags) > 0) {
+                $this->unique_hashtag();
+                foreach ($this->hashtags as $hashtag) {
+                    HashtagFeed::create(array('hashtag' => $hashtag, 'fid' => $feed->fid, 'uid' => $feed->uid));
+                }
+            }
+        }
     }
 
     /**
@@ -94,24 +134,12 @@ class FeedRepository extends Repository
         $data['fkey']   = generate_feed_key();
         $data['status'] = 1;
         $ret            = Feed::create($data);
+        //创建成功后续操作
+        $this->afterCreateFeed($ret);
 
         return self::success(self::format_result($ret, $format));
     }
 
-    private function parseFeed($feed)
-    {
-        $feed = htmlspecialchars($feed,ENT_QUOTES);
-        return preg_replace_callback(
-            "/([^A-Za-z0-9_\x{4e00}-\x{9fa5}]#|^#)([#A-Za-z0-9_\x{4e00}-\x{9fa5}]+)/u",
-            function ($matches) {
-                if (stripos($matches[2], '#') !== false) {
-                    return $matches[0];
-                }
-
-                return substr($matches[1], 0, -1) . "<a href=\"/hashtag/".$matches[2]."?source=feed\"><s>#</s><b>" . $matches[2] . "</b></a>";
-            },
-            $feed);
-    }
 
     /**
      * 根据key获取feed
