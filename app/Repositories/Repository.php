@@ -8,7 +8,6 @@
 namespace App\Repositories;
 
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Database\Eloquent\Model;
 
 class Repository
 {
@@ -43,7 +42,7 @@ class Repository
 
 
     /**
-     * 格式化输出验证器9
+     * 格式化输出验证器
      *
      * @param Validator $validator
      *
