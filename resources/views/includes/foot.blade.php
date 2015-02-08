@@ -38,21 +38,13 @@
     </div>
 </div>
 {!! HTML::script('js/jquery.min.js')!!}
-{!! HTML::script('js/bootstrap.min.js')!!}
-{!! HTML::script('js/bootstrap-hover-dropdown.min.js')!!}
+{!! HTML::script('bootstrap/js/bootstrap.min.js')!!}
+{!!HTML::script('bootstrap/js/tooltip.js')!!}
 {!! HTML::script('js/tagscloud.js')!!}
 {!! HTML::script('jquery-ui/jquery-ui.min.js')!!}
 <script type="text/javascript">
     $(function () {
-        if ($.browser.msie && parseInt($.browser.version, 10) === 6) {
-            $('.row div[class^="span"]:last-child').addClass("last-child");
-            $('[class*="span"]').addClass("margin-left-20");
-            $(':button[class="btn"], :reset[class="btn"], :submit[class="btn"], input[type="button"]').addClass("button-reset");
-            $(":checkbox").addClass("input-checkbox");
-            $('[class^="icon-"], [class*=" icon-"]').addClass("icon-sprite");
-            $(".pagination li:first-child a").addClass("pagination-first-child")
-        }
-        $('.dropdown-toggle').dropdownHover();
+        $('[data-toggle="tooltip"]').tooltip();
         $("#linkSelectSection").autocomplete(
         {
                 source: function (request, response) {

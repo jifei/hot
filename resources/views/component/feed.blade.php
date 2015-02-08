@@ -21,7 +21,7 @@
             <a href="/b/{{$feed['board_code']}}">{{$feed['board_name']}}</a>
           </div>
             <div class="feed-handle">
-               <a class="add-feed" @if(!empty($is_detail)) href="javascript:void(0);" @else href="/f/{{$feed['fkey']}}/comment" target="_blank" @endif>评论</a><span class="separator">|</span><a>分享</a><span class="separator">|</span><a>收藏</a><span class="separator">|</span>举报&nbsp;
+               <a data-toggle="tooltip" title="回复"class="add-feed" @if(!empty($is_detail)) href="javascript:void(0);" @else href="/f/{{$feed['fkey']}}/comment" target="_blank" @endif><i class="fa fa-reply"></i></a><span class="separator">|</span><a data-toggle="tooltip" title="分享"><i class="fa fa-share-alt"></i></a><span class="separator">|</span><a data-toggle="tooltip" title="收藏"><i  class="fa fa-star"></i></a><span class="separator">|</span><a data-toggle="tooltip" title="举报"><i class="fa fa-warning"></i></a>&nbsp;
             </div>
         </div>
     </div>
