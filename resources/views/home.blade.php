@@ -1,13 +1,13 @@
 @include('includes.head')
 @include('includes.navbar',array('top_board'=>isset($top_board)?$top_board:0))
-<div id="content">
+<div id="content" class="container">
     <div id="content-container">
-        <div id="timeline">
+        <div id="timeline" class="col-md-8">
       @foreach ($feed_list as $feed)
         @include('component.feed',array('feed'=>$feed))
       @endforeach
         </div>
-        <div id="dashboard-right">
+        <div id="dashboard-right" class="col-md-3">
             <div id="tagscloud">
                 <a href="http://www.17sucai.com/" class="tagc1">#搞笑视频</a>
                 <a href="http://www.17sucai.com/" class="tagc2">#周末娱乐</a>
@@ -40,3 +40,4 @@
 </div>
 @include('includes.foot')
 {!!HTML::script('js/index.js')!!}
+{!!HTML::script('js/tagscloud.js')!!}

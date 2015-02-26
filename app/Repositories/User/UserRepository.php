@@ -54,10 +54,5 @@ class UserRepository extends Repository
         return User::create($data);
     }
 
-    public function add()
-    {
-        var_dump(User::all());
 
-        //$this->user::findAll(1);
-    }
 }

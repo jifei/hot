@@ -27,7 +27,6 @@ class FeedController extends Controller
         list($page) = self::getPage();
         $page_size = 50;
         $feed_list = $this->feed->getFeedList(array(), 'fid', $page, $page_size);
-
         return view('home', array('feed_list' => $feed_list));
     }
 

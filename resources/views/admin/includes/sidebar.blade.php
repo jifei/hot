@@ -146,11 +146,11 @@
         {{--<li class="header">LABELS</li>--}}
         {{--<li><a href="#"><i class="fa fa-circle-o text-danger"></i> Important</a></li>--}}
         {{--<li><a href="#"><i class="fa fa-circle-o text-warning"></i> Warning</a></li>--}}
-        {{--<li><a href="#"><i class="fa fa-circle-o text-info"></i> Information</a></li>--}}
+        <li><a href="#"><i class="fa fa-circle-o text-info"></i> Information</a></li>
         <?php
         $tree = new \App\Libraries\Classes\Tree('pid', 'ppid');
         $tree->load($allowed_privilege,$allowed_privilege);
-        $tree->printAllowedTree($tree->buildTree());
+        $tree->printAllowedTree($tree->buildTree(),1);
         ?>
     </ul>
 </section>

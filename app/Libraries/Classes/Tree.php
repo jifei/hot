@@ -122,23 +122,24 @@ class Tree
     /**
      * 输出允许的树结构
      * @param $tree
+     * @param $is_root
      */
-    public function printAllowedTree($tree)
+    public function printAllowedTree($tree,$is_root=0)
     {
         if (is_array($tree) && count($tree) > 0) {
-            echo '<ul  class="treeview">';
+            echo $is_root==0?'<ul  class="treeview-menu">':'';
             foreach ($tree as $node) {
                 if (empty($node['is_allowed'])) {
                     continue;
                 }
                 $has_children = !empty($node['children']) ? true : false;
                 $active =$node[$this->pk]==$this->current_id?' active':'';
-                echo '<li '.($has_children?'class="treeview-menu'.$active.'"':'').'><a href="'.$node['url'].'"><span>' . $node['text'] . '</span></a>';
+                echo '<li '.($has_children?'class="treeview'.$active.'"':'').'><a href="'.$node['url'].'"><i class="fa fa-circle-o"></i><span>' . $node['text'] . '</span></a>';
                 if ($has_children)
                     $this->printAllowedTree($node['children']);
                 echo '</li>';
             }
-            echo '</ul>';
+            echo  $is_root==0?'</ul>':'';
         }
     }
 

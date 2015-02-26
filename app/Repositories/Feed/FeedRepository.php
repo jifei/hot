@@ -137,7 +137,7 @@ class FeedRepository extends Repository
         //创建成功后续操作
         $this->afterCreateFeed($ret);
 
-        return self::success(self::format_result($ret, $format));
+        return self::success(self::formatResult($ret, $format));
     }
 
 
@@ -153,7 +153,7 @@ class FeedRepository extends Repository
     {
         $feed = Feed::where('fkey', $key)->first();
 
-        return self::format_result($feed, $format);
+        return self::formatResult($feed, $format);
     }
 
     /**
@@ -218,7 +218,7 @@ class FeedRepository extends Repository
     {
         $feed = Feed::where('bid', $bid)->orWhere('pid', $bid)->orderBy($order, 'DESC')->get();
 
-        return self::format_result($feed, $format);
+        return self::formatResult($feed, $format);
     }
 
 

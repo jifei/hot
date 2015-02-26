@@ -67,7 +67,7 @@ class BoardRepository extends Repository
      */
     public function getBoardByCode($code, $format = 'array')
     {
-        return self::format_result(Board::where('code', $code)->where('status',1)->first(), $format);
+        return self::formatResult(Board::where('code', $code)->where('status',1)->first(), $format);
     }
 
     /**
@@ -84,7 +84,7 @@ class BoardRepository extends Repository
             return $this->getTopBoards($format);
         }
 
-        return self::format_result(Board::where('status', 1)
+        return self::formatResult(Board::where('status', 1)
             ->where(function ($query) use ($keyword) {
                 $query->where('name', 'like', "%$keyword%")->orWhere('code', 'like', "$keyword%");
             })->orderBy('display_sort', 'ASC')->orderBy('bid', 'ASC')->get(), $format);
@@ -99,7 +99,7 @@ class BoardRepository extends Repository
      */
     public function getBoardByName($name, $format = 'array')
     {
-        return self::format_result(Board::where('name', $name)->where('status', 1)->first(), $format);
+        return self::formatResult(Board::where('name', $name)->where('status', 1)->first(), $format);
     }
 
     /**
@@ -149,7 +149,7 @@ class BoardRepository extends Repository
 //            ['id' => '16', 'name' => '会议', 'code' => 'gongyi', 'display_sort' => 15],
 //            ['id' => '16', 'name' => '比赛', 'code' => 'gongyi', 'display_sort' => 15],
 
-        return self::format_result(Board::where('pid', 0)->orderBy('display_sort', 'ASC')->orderBy('bid', 'ASC')->get(), $format);
+        return self::formatResult(Board::where('pid', 0)->orderBy('display_sort', 'ASC')->orderBy('bid', 'ASC')->get(), $format);
     }
 
 } 

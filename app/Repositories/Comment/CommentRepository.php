@@ -49,7 +49,7 @@ class CommentRepository extends Repository
         $data['status'] = 1;
         $ret            = Comment::create($data);
 
-        return self::success(self::format_result($ret, $format));
+        return self::success(self::formatResult($ret, $format));
     }
 
 }

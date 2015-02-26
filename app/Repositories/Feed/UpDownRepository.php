@@ -46,7 +46,7 @@ class UpDownRepository extends Repository
         }
         $ret = $up_down->orderBy('id', 'desc')->first();
 
-        return self::format_result($ret, $format);
+        return self::formatResult($ret, $format);
     }
 
     /**

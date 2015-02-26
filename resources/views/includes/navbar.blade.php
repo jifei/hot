@@ -12,7 +12,7 @@
             </div>
             <nav class="collapse navbar-collapse bs-navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li @if(isset($top_board)&&$top_board==0)class="active"@endif><a href="/">首页</a></li>
+                    <li @if(Request::path()==''||Request::path()=='/')class="active"@endif><a href="/">首页</a></li>
                     @foreach($top_boards as $v)
                         <li @if(isset($top_board)&&$top_board==$v['bid'])class="active"@endif><a
                                     href="/b/{{$v['code']}}">{{$v['name']}}</a></li>
@@ -35,7 +35,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         <button style="margin-right:5px;margin-top: 3px;" @if(!$user) onclick="window.location.href='/auth/login'"
-                                @else href="#publishModal"  data-toggle="modal"
+                                @else  data-target="#publishModal"  data-toggle="modal"
                                 @endif  class="btn btn-warning publish-btn">发布
                         </button>
                     </li>

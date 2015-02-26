@@ -59,7 +59,7 @@ header.navbar {
     padding: 3px 20px;
 }
 
-.navbar .nav li a:hover, .navbar-inverse .nav .dropdown-menu li a:focus {
+.navbar .nav li a:hover,.nav li.active a, .navbar-inverse .nav .dropdown-menu li a:focus {
     background-image: linear-gradient(to bottom, #F70, #F70);
     background-color: #F70;
     background-image: -moz-linear-gradient(top, #F70, #F70);
@@ -175,9 +175,7 @@ input.search-query{
     color: #08c
 }
 
-#content {
-    width: 100%;
-}
+
 
 #content-container {
     margin: 0 auto;
