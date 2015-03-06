@@ -98,7 +98,7 @@ class AuthController extends Controller
             }
 
             if ($request->ajax()) {
-                return $this->ajaxFail('邮箱或者密码错误', '402');
+                return $this->jsonFail('邮箱或者密码错误', '402');
             } else {
                 $redirect_url = Input::get('redirect_url');
                 if ($redirect_url) {
@@ -111,7 +111,7 @@ class AuthController extends Controller
 
         //登录失败
         if ($request->ajax()) {
-            return $this->ajaxFail('邮箱或者密码错误', '402');
+            return $this->jsonFail('邮箱或者密码错误', '402');
         } else {
             return redirect('/auth/login')->withErrors(['邮箱或者密码错误']);
         }
@@ -125,10 +125,10 @@ class AuthController extends Controller
     {
         $validator = $this->user->emailValidator(Input::get('email'));
         if ($validator->fails()) {
-            return $this->ajaxFail($validator->messages()->first());
+            return $this->jsonFail($validator->messages()->first());
         }
 
-        return $this->ajaxSuccess();
+        return $this->jsonSuccess();
     }
 
     /**
@@ -139,9 +139,9 @@ class AuthController extends Controller
     {
         $validator = $this->user->emailValidator(Input::get('email'));
         if ($validator->fails()) {
-            return $this->ajaxFail($validator->messages()->first());
+            return $this->jsonFail($validator->messages()->first());
         }
 
-        return $this->ajaxSuccess();
+        return $this->jsonSuccess();
     }
 }

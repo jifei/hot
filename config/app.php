@@ -1,6 +1,10 @@
 <?php
 require_once __DIR__ . '/../bootstrap/start.php';
 return [
+    /**
+     * custom config
+     */
+    'default_action'  => 'index',
 
     /*
     |--------------------------------------------------------------------------
@@ -146,6 +150,13 @@ return [
         'App\Providers\ConfigServiceProvider',
         'App\Providers\EventServiceProvider',
         'App\Providers\RouteServiceProvider',
+
+        /**
+         * other
+         */
+        'Barryvdh\Debugbar\ServiceProvider',
+        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
+
     ],
 
     /*
@@ -208,7 +219,9 @@ return [
         'Validator' => 'Illuminate\Support\Facades\Validator',
         'View'      => 'Illuminate\Support\Facades\View',
         'Form'      => 'Illuminate\Html\FormFacade',
-        'HTML'      => 'Illuminate\Html\HtmlFacade'
+        'HTML'      => 'Illuminate\Html\HtmlFacade',
+        'Debugbar' => 'Barryvdh\Debugbar\Facade',
+
     ],
 
 ];

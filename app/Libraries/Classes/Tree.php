@@ -14,6 +14,8 @@ class Tree
     public  $parent_key;//上级ID
     public  $children_key;//存放子孙的key名
     public  $current_id;//当前ID
+    public  $current_name;//当前名称
+    public  $parents = array();
 
     function __construct($pk = 'id', $parent_key = 'pid', $children_key = 'children')
     {
@@ -85,6 +87,18 @@ class Tree
         return $tree;
     }
 
+    /**
+     * 寻找父节点
+     * @param $current_id
+     */
+    public function findParent($current_id)
+    {
+        if (!empty($this->original_list[$current_id][$this->parent_key]) && !empty($this->original_list[$this->original_list[$current_id][$this->parent_key]])) {
+            $this->parents[$this->original_list[$current_id][$this->parent_key]] = $this->original_list[$this->original_list[$current_id][$this->parent_key]];
+            $this->findParent($this->original_list[$current_id][$this->parent_key]);
+        }
+    }
+
 
     /**
      * 授权
@@ -124,22 +138,25 @@ class Tree
      * @param $tree
      * @param $is_root
      */
-    public function printAllowedTree($tree,$is_root=0)
+    public function printAllowedTree($tree, $is_root = 0)
     {
         if (is_array($tree) && count($tree) > 0) {
-            echo $is_root==0?'<ul  class="treeview-menu">':'';
+            echo $is_root == 0 ? '<ul  class="treeview-menu">' : '';
             foreach ($tree as $node) {
-                if (empty($node['is_allowed'])) {
+                if (empty($node['is_allowed'])||(isset($node['type'])&&$node['type']==2)) {
                     continue;
                 }
                 $has_children = !empty($node['children']) ? true : false;
-                $active =$node[$this->pk]==$this->current_id?' active':'';
-                echo '<li '.($has_children?'class="treeview'.$active.'"':'').'><a href="'.$node['url'].'"><i class="fa fa-circle-o"></i><span>' . $node['text'] . '</span></a>';
+                $active       = '';
+                if ($node[$this->pk] == $this->current_id || isset($this->parents[$node[$this->pk]])) {
+                    $active = ' active';
+                }
+                echo '<li class="' . ($has_children ? 'treeview' : '') . $active . '"><a href="' .$node['url'] . '"><i class="fa fa-circle-o"></i><span>' . $node['text'] . '</span></a>';
                 if ($has_children)
                     $this->printAllowedTree($node['children']);
                 echo '</li>';
             }
-            echo  $is_root==0?'</ul>':'';
+            echo $is_root == 0 ? '</ul>' : '';
         }
     }
 

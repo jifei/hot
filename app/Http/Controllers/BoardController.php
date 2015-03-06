@@ -55,7 +55,7 @@ class BoardController extends Controller
         // $queries = DB::getQueryLog();
         //dd($queries);
         //echo $last_query = end($queries);
-        return $this->ajaxSuccess($data);
+        return $this->jsonSuccess($data);
     }
 
     public function add()

@@ -8,6 +8,7 @@
 namespace App\Repositories\Admin;
 
 use App\Models\AdminUser;
+use App\Models\AdminUserGroup;
 use App\Repositories\Repository;
 use Validator;
 
@@ -84,15 +85,26 @@ class UserRepository extends Repository
     }
 
     /**
+     * 获取之前操作
+     * @param $filter
+     * @param $model
+     * @return mixed
+     */
+    public function beforeGet($filter, $model)
+    {
+        return $model->with('groups');
+    }
+
+    /**
      * 添加前操作
      * @param $data
      * @return array
      */
     public function beforeAdd($data)
     {
-        list($ok, $data, $msg) = parent::beforeAdd($data);
-        if (!$ok) {
-            return self::fail($msg);
+        list($code, $data, $msg) = parent::beforeAdd($data);
+        if ($code != 200) {
+            return self::fail($msg, $code);
         }
         if (!empty($data['mobile']) && !checkMobile($data['mobile'])) {
             return self::fail('手机号填写不正确');
@@ -106,19 +118,19 @@ class UserRepository extends Repository
      * @param $data
      * @return array
      */
-    public function beforeEdit($id,$data)
+    public function beforeEdit($id, $data)
     {
         unset($data['name']);
-        list($ok, $data, $msg) = parent::beforeEdit($id,$data);
-        if (!$ok) {
-            return self::fail($msg);
+        list($code, $data, $msg) = parent::beforeEdit($id, $data);
+        if ($code != 200) {
+            return self::fail($msg, $code);
         }
         if (!empty($data['mobile']) && !checkMobile($data['mobile'])) {
             return self::fail('手机号填写不正确');
         }
-        if(isset($data['password'])&&strlen($data['password'])){
+        if (isset($data['password']) && strlen($data['password'])) {
             $data['password'] = password_hash($data['password'], self::PASSWORD_ALGO);
-        }else{
+        } else {
             unset($data['password']);
         }
         return self::success($data);
@@ -146,4 +158,30 @@ class UserRepository extends Repository
     {
         return self::formatResult(AdminUser::where('remember_token', $remember_token)->where('token_expire_time', '>', date('Y-m-d H:i:s'))->where('status', 1)->first(), $format);
     }
+
+    /**
+     * 获取用户组
+     * @param $uid
+     * @return array
+     */
+    public function getUserGroups($uid)
+    {
+        return self::formatResult(AdminUserGroup::where('uid', $uid)->get(), self::FORMAT_OBJECT);
+    }
+
+
+    public function setGroups($uid, $group_ids)
+    {
+        AdminUserGroup::where('uid', $uid)->delete();
+        $group_ids = explode(',', $group_ids);
+        foreach ($group_ids as $v) {
+            if (!is_numeric($v)) {
+                continue;
+            }
+            AdminUserGroup::create(array('uid' => $uid, 'gid' => $v));
+        }
+        return self::success();
+    }
+
+
 }

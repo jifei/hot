@@ -16,7 +16,7 @@ class AdminGroup extends BaseModel{
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['group_name'];
+	protected $fillable = ['group_name','status'];
 
     //黑名单
    // protected $guarded = array('fid');
@@ -27,5 +27,10 @@ class AdminGroup extends BaseModel{
 	 * @var array
 	 */
 	protected $hidden = [''];
+
+    public function privileges()
+    {
+        return $this->hasMany('App\Models\AdminGroupPrivilege', 'gid', 'gid');
+    }
 
 }

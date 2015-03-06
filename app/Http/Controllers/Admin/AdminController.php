@@ -8,6 +8,7 @@ use App\Libraries\Classes\Tree;
 use Session;
 use Request;
 use Cookie;
+use URL;
 
 abstract class AdminController extends BaseController
 {
@@ -44,22 +45,31 @@ abstract class AdminController extends BaseController
         //已经登录
         if ($path == 'login' && $this->login_admin_user) {
             if (Request::ajax()) {
-                return self::ajaxFail('已经登录，请勿重复登录');
+                return self::jsonFail('已经登录，请勿重复登录');
             }
             return redirect()->to('/')->send();
         }
         if (!$this->login_admin_user && $path != 'login') {
             if (Request::ajax()) {
-                return self::ajaxFail('未登录，请先登录', 401);
+                return self::jsonFail('未登录，请先登录', 401);
             } else {
                 return redirect('/login?redirect_url=' . urlencode(getFullURL()))->send();
             }
         }
         $privilege           = new PrivilegeRepository();
         $this->all_privilege = $privilege->getPrivileges();
-//        $tree = new Tree('pid','ppid');
-//        $tree->load($this->all_privilege);
-        view()->share('allowed_privilege',$this->all_privilege);
+        //menu_tree
+        $tree = new \App\Libraries\Classes\Tree('pid', 'ppid');
+        $tree->load($this->all_privilege, $this->all_privilege);
+        $current_privilege = $privilege->getPrivilegeByUrl('/' . $path);
+        if (isset($current_privilege['pid'])) {
+            $tree->current_id   = $current_privilege['pid'];
+            $tree->current_name = $current_privilege['title'];
+            $tree->findParent($current_privilege['pid']);
+        }
+        //$tree->printAllowedTree($tree->buildTree(), 1);
+        view()->share('menu_tree', $tree);
+        //view()->share('allowed_privilege',$this->all_privilege);
         view()->share('login_admin_user', $this->login_admin_user);
     }
 
@@ -70,7 +80,15 @@ abstract class AdminController extends BaseController
      */
     public function data()
     {
-        $result = $this->repos->getDataList();
+        $filters = (array)json_decode(Request::input('filters'));
+        $filter  = array();
+        if (!empty($filters['rules'])) {
+            foreach ($filters['rules'] as $v) {
+                $v=(array)$v;
+                $filter[$v['field']] = $v['data'];
+            }
+        }
+        $result = $this->repos->getDataList($filter);
         return response()->json($result);
     }
 
@@ -80,11 +98,11 @@ abstract class AdminController extends BaseController
      */
     public function add()
     {
-        list($ok, , $msg) = $this->repos->add(Request::all());
-        if (!$ok) {
-            return self::ajaxFail($msg);
+        list($code, , $msg) = $this->repos->add(Request::all());
+        if ($code != 200) {
+            return self::jsonFail($msg, $code);
         }
-        return self::ajaxSuccess('创建成功');
+        return self::jsonSuccess('创建成功');
     }
 
     /**
@@ -99,23 +117,23 @@ abstract class AdminController extends BaseController
         }
         $ids = explode(',', $id);
         if (count($ids) == 1) {
-            list($ok, , $msg) = $this->repos->delete($id);
-            if (!$ok) {
-                return self::ajaxFail($msg);
+            list($code, , $msg) = $this->repos->delete($id);
+            if ($code != 200) {
+                return self::jsonFail($msg, $code);
             }
         } else {
             $error_ids = array();
             foreach ($ids as $id) {
-                list($ok, ,) = $this->repos->delete($id);
-                if (!$ok) {
+                list($code, ,) = $this->repos->delete($id);
+                if ($code != 200) {
                     $error_ids[] = $id;
                 }
             }
             if (!empty($error_ids)) {
-                return self::ajaxFail(implode(',', $error_ids) . '删除失败');
+                return self::jsonFail(implode(',', $error_ids) . '删除失败', $code);
             }
         }
-        return self::ajaxSuccess('删除成功');
+        return self::jsonSuccess('删除成功');
     }
 
     /**
@@ -128,11 +146,11 @@ abstract class AdminController extends BaseController
         if ($id == null) {
             $id = Request::input('id');
         }
-        list($ok, , $msg) = $this->repos->edit($id, Request::all());
-        if (!$ok) {
-            return self::ajaxFail($msg);
+        list($code, , $msg) = $this->repos->edit($id, Request::all());
+        if ($code != 200) {
+            return self::jsonFail($msg, $code);
         }
-        return self::ajaxSuccess('修改成功');
+        return self::jsonSuccess('修改成功');
     }
 
 }

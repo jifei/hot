@@ -34,11 +34,12 @@
             },
             colModel: [], rowNum: 20,
             rowList: [20, 50, 100],
-            caption: "标题",
+            caption: " ",
             editurl: "{{Request::segment(1)}}/edit",
             delurl: "{{Request::segment(1)}}/del",
             addurl: "{{Request::segment(1)}}/add",
             url: "{{Request::segment(1)}}/data",
+            filters:{},
             navOptions: { 	//navbar options
                 edit: true,
                 editicon: 'fa fa-pencil blue',
@@ -104,6 +105,9 @@
         function beforeAddCallBack(e) {
             $('#tr_password', e).show();
             $('#tr_password_confirmation', e).show();
+            var form = $(e[0]);
+            style_edit_form(form);
+
         }
 
         function beforeDeleteCallback(e) {
@@ -168,20 +172,20 @@
         //unlike navButtons icons, action icons in rows seem to be hard-coded
         //you can change them like this in here if you want
         function updateActionIcons(table) {
-            /**
-             var replacement =
-             {
-                 'ui-ace-icon fa fa-pencil' : 'ace-icon fa fa-pencil blue',
-                 'ui-ace-icon fa fa-trash-o' : 'ace-icon fa fa-trash-o red',
-                 'ui-icon-disk' : 'ace-icon fa fa-check green',
-                 'ui-icon-cancel' : 'ace-icon fa fa-times red'
-             };
-             $(table).find('.ui-pg-div span.ui-icon').each(function(){
-						var icon = $(this);
-						var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
-						if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
-					})
-             */
+
+//             var replacement =
+//             {
+//                 'ui-ace-icon fa fa-pencil' : 'ace-icon fa fa-pencil blue',
+//                 'ui-ace-icon fa fa-trash-o' : 'ace-icon fa fa-trash-o red',
+//                 'ui-icon-disk' : 'ace-icon fa fa-check green',
+//                 'ui-icon-cancel' : 'ace-icon fa fa-times red'
+//             };
+//             $(table).find('.ui-pg-div span.ui-icon').each(function(){
+//						var icon = $(this);
+//						var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+//						if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
+//					})
+
         }
 
         //replace icons with FontAwesome icons like above
@@ -306,7 +310,8 @@
                         editurl: jqGrid_cfg.editurl,//nothing is saved
                         //addurl:"/user/add",
                         grouping: true,
-                        caption: jqGrid_cfg.caption
+                        caption: jqGrid_cfg.caption,
+                        postData: { filters: JSON.stringify(jqGrid_cfg.filters)}
                     }
             );
 

@@ -9,18 +9,24 @@ namespace App\Repositories;
 
 use Validator;
 
-
 class Repository
 {
     const FORMAT_OBJECT = 'object';//格式化数据为对象
     const FORMAT_ARRAY  = 'array';//格式化数据为数组
     static $model_name             = '';//model名称
-    static $model_namespace_prefix = "\\App\Models\\";//model命名空间
+    static $model_namespace_prefix = "\\App\\Models\\";//model命名空间
     static $add_validator_rules    = [];//添加验证规则
     static $edit_validator_rules   = [];//编辑验证规则
     static $validator_messages     = [];//验证提示信息
-
-    private $trees=array();
+    const CODE_SUCCESS      = 200;
+    const CODE_FAIL         = 400;
+    const CODE_UNAUTHORIZED = 401;//权限验证失败
+    const CODE_FORBIDDEN    = 403;//拒绝执行
+    const CODE_NO           = 404;//数据不存在
+    const CODE_ERROR_PARAM  = 405;//参数错误T_FOUND
+    const CODE_MISS_PARAM   = 406;//参数不全
+    const CODE_TIMEOUT      = 408;//超时
+    private $trees = array();
 
     /**
      * 调用model function
@@ -66,20 +72,21 @@ class Repository
      */
     public static function success($data = array(), $msg = 'ok')
     {
-        return [true, $data, $msg];
+        return [200, $data, $msg];
     }
 
     /**
      * 失败返回
      *
      * @param       $msg
+     * @param       $code //错误代码
      * @param array $data
      *
      * @return array
      */
-    public static function fail($msg, $data = array())
+    public static function fail($msg, $code = 400, $data = array())
     {
-        return [false, $data, $msg];
+        return [$code, $data, $msg];
     }
 
 
@@ -117,6 +124,17 @@ class Repository
     }
 
     /**
+     * 获取之前操作
+     * @param $filter
+     * @param $model
+     * @return mixed
+     */
+    public function beforeGet($filter, $model)
+    {
+        return $model;
+    }
+
+    /**
      * 获取列表
      * @param array $filter
      * @param int $page_size
@@ -127,6 +145,7 @@ class Repository
     {
         $full_model_name        = static::$model_namespace_prefix . static::$model_name;
         $model                  = new $full_model_name;
+        $model                  = $this->beforeGet($filter, $model);
         $paginate               = $model->paginate($page_size);
         $result['current_page'] = $paginate->currentPage();
         $result['total']        = $paginate->total();
@@ -147,9 +166,9 @@ class Repository
      */
     public function beforeAdd($data)
     {
-        list($ok, , $msg) = self::formatValidator($this->addValidation($data));
-        if (!$ok) {
-            return self::fail($msg);
+        list($code, , $msg) = self::formatValidator($this->addValidation($data));
+        if ($code != 200) {
+            return self::fail($msg, $code);
         }
         return self::success($data);
     }
@@ -161,16 +180,16 @@ class Repository
      */
     public function add($data)
     {
-        list($ok, $data, $msg) = $this->beforeAdd($data);
-        if (!$ok) {
-            return self::fail($msg);
+        list($code, $data, $msg) = $this->beforeAdd($data);
+        if ($code != 200) {
+            return self::fail($msg, $code);
         }
         $model = $this->callModelFunction('create', $data);
         if (!$model) {
             return self::fail('创建失败');
         }
-        list($ok, , $msg) = $this->afterAdd($model);
-        if (!$ok) {
+        list($code, , $msg) = $this->afterAdd($model);
+        if ($code != 200) {
             return self::fail($msg);
         }
         return self::success();
@@ -218,11 +237,11 @@ class Repository
      * @param $data
      * @return array
      */
-    public function beforeEdit($id,$data)
+    public function beforeEdit($id, $data)
     {
-        list($ok, , $msg) = self::formatValidator($this->editValidation($data));
-        if (!$ok) {
-            return self::fail($msg);
+        list($code, , $msg) = self::formatValidator($this->editValidation($data));
+        if ($code != 200) {
+            return self::fail($msg, $code);
         }
         if (isset($data['status'])) {
             if ($data['status'] != -1) {
@@ -242,9 +261,9 @@ class Repository
      */
     public function edit($id, $data)
     {
-        list($ok, $data, $msg) = $this->beforeEdit($id,$data);
-        if (!$ok) {
-            return self::fail($msg);
+        list($code, $data, $msg) = $this->beforeEdit($id, $data);
+        if ($code != 200) {
+            return self::fail($msg, $code);
         }
         $model = $this->getModel($id);
         if (!$model) {
@@ -257,9 +276,9 @@ class Repository
             return self::fail('更新失败');
         }
         //编辑成功后操作
-        list($ok, , $msg) = $this->afterEdit($model);
-        if (!$ok) {
-            return self::fail($msg);
+        list($code, , $msg) = $this->afterEdit($model);
+        if ($code != 200) {
+            return self::fail($msg, $code);
         }
         return self::success('更新成功');
     }
@@ -288,7 +307,7 @@ class Repository
 //        if (!isset($model->delete_time)) {
 //            return self::fail('缺少delete_time字段');
 //        }
-        if ($model->delete_time != null) {
+        if ($model->delete_time == -1) {
             return self::fail('已经删除无须重复删除');
         }
         return self::success($model);
@@ -305,18 +324,18 @@ class Repository
         if (!$model) {
             return self::fail('记录不存在');
         }
-        list($ok, $model, $msg) = $this->beforeDelete($model);
-        if (!$ok) {
-            return self::fail($msg);
+        list($code, $model, $msg) = $this->beforeDelete($model);
+        if ($code != 200) {
+            return self::fail($msg, $code);
         }
         $model->delete_time = date('Y-m-d H:i:s');
         $model->status      = -1;
         if (!$model->save()) {
             return self::fail('删除失败');
         }
-        list($ok, , $msg) = $this->afterDelete($model);
-        if (!$ok) {
-            return self::fail($msg);
+        list($code, , $msg) = $this->afterDelete($model);
+        if ($code != 200) {
+            return self::fail($msg, $code);
         }
         return self::success('删除成功');
 
@@ -335,7 +354,7 @@ class Repository
 
     public function buildTree($tree)
     {
-        foreach($tree as $t){
+        foreach ($tree as $t) {
             $this->trees;
         }
     }

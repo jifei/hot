@@ -125,6 +125,12 @@
 	/*height: 32px;	*/
 /*}*/
 
+.wrapper a {
+    color: #3c8dbc;
+}
+table{
+    font-size: 13px;
+}
 .purple {
     color: #a069c3!important;
 }

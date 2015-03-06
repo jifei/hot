@@ -14,10 +14,10 @@ use Request;
 
 class PrivilegeController extends AdminController
 {
-    public function __construct(PrivilegeRepository $repository)
+    public function __construct()
     {
         parent::__construct();
-        $this->repos = $repository;
+        $this->repos = new PrivilegeRepository();
     }
 
     public function index()

@@ -1,8 +1,10 @@
 <?php namespace App\Http\Controllers\Admin;
+
 use App\Repositories\Admin\UserRepository;
 use Request;
 use Session;
 use Cookie;
+
 class AuthController extends AdminController
 {
 
@@ -30,13 +32,13 @@ class AuthController extends AdminController
     public function login()
     {
         if (Request::isMethod('post')) {
-            list($ok, $data, $msg) = $this->user->login(Request::get('name'), Request::get('password'), Request::get('remember_me'));
-            if ($ok) {
+            list($code, $data, $msg) = $this->user->login(Request::get('name'), Request::get('password'), Request::get('remember_me'));
+            if ($code == 200) {
                 Session::put('login_admin_uid', $data['uid']);
                 if (!empty(Request::get('remember_me'))) {
                     Cookie::queue('admin_remember_token', $data['remember_token'], UserRepository::REMEMBER_DAYS * 24 * 60);
                 }
-                return redirect()->to(urldecode(Request::input('redirect_url','/')));
+                return redirect()->to(urldecode(Request::input('redirect_url', '/')));
             } else {
                 return view('admin.login')->with('error', $msg);
             }
@@ -48,10 +50,11 @@ class AuthController extends AdminController
      * 退出
      * @return \Illuminate\View\View
      */
-    public function logout(){
+    public function logout()
+    {
         $this->user->logout($this->login_admin_uid);
         Session::flush();
-        $cookie =Cookie::forget('admin_remember_token');
+        $cookie = Cookie::forget('admin_remember_token');
         return redirect('/login')->withCookie($cookie);
     }
 

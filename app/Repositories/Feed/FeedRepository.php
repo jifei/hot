@@ -119,8 +119,8 @@ class FeedRepository extends Repository
         if (!empty($data['link']) && stripos($data['link'], 'http') === false) {
             $data['link'] = 'http://' . $data['link'];
         }
-        list($ok, , $msg) = self::format_validator($this->validator($data));
-        if (!$ok) {
+        list($code, , $msg) = self::format_validator($this->validator($data));
+        if ($code!=200) {
             return self::fail($msg);
         }
         if (!empty($data['link'])) {

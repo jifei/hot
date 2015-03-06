@@ -1,5 +1,5 @@
 <!-- Logo -->
-<a href="index2.html" class="logo">商会管理后台</a>
+<a href="/" class="logo">商会管理后台</a>
 <!-- Header Navbar: style can be found in header.less -->
 <nav class="navbar navbar-static-top" role="navigation">
     <!-- Sidebar toggle button-->

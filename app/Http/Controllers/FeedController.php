@@ -59,18 +59,18 @@ class FeedController extends Controller
     {
         if ($this->login_user && Request::ajax()) {
             if ($direction == UpDownRepository::DIRECTION_UP) {
-                list($ok, $data, $msg) = $this->up_down->feedUp($this->login_user->uid, Input::get('fkey'));
+                list($code, $data, $msg) = $this->up_down->feedUp($this->login_user->uid, Input::get('fkey'));
             } else {
-                list($ok, $data, $msg) = $this->up_down->feedDown($this->login_user->uid, Input::get('fkey'));
+                list($code, $data, $msg) = $this->up_down->feedDown($this->login_user->uid, Input::get('fkey'));
             }
-            if (!$ok) {
-                return self::ajaxFail($msg);
+            if ($code!=200) {
+                return self::jsonFail($msg);
             }
 
-            return self::ajaxSuccess($data);
+            return self::jsonSuccess($data);
         }
 
-        return self::ajaxFail('非法操作');
+        return self::jsonFail('非法操作');
     }
 
     /**
@@ -105,12 +105,12 @@ class FeedController extends Controller
 
     public function add()
     {
-        list($ok, $data, $msg) = $this->feed->create($_POST);
-        if (!$ok) {
-            return $this->ajaxFail($msg);
+        list($code, $data, $msg) = $this->feed->create($_POST);
+        if ($code!=200) {
+            return $this->jsonFail($msg);
         }
 
-        return $this->ajaxSuccess($data);
+        return $this->jsonSuccess($data);
     }
 
     public function get()

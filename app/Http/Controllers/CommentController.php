@@ -33,12 +33,12 @@ class CommentController extends Controller
      */
     public function add()
     {
-        list($ok, $data, $msg) = $this->comment->create($this->login_user->uid,Request::segment(3),array('content'=>Input::get('content')));
-        if (!$ok) {
-            return $this->ajaxFail($msg);
+        list($code, $data, $msg) = $this->comment->create($this->login_user->uid,Request::segment(3),array('content'=>Input::get('content')));
+        if ($code!=200) {
+            return $this->jsonFail($msg);
         }
 
-        return $this->ajaxSuccess($data);
+        return $this->jsonSuccess($data);
     }
 
     public function info()
