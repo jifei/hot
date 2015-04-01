@@ -18,14 +18,17 @@ class Repository
     static $add_validator_rules    = [];//添加验证规则
     static $edit_validator_rules   = [];//编辑验证规则
     static $validator_messages     = [];//验证提示信息
+    static $order_fields           = [];//允许排序字段
+    static $order_directions       = ['asc', 'desc'];//允许排序方向
     const CODE_SUCCESS      = 200;
     const CODE_FAIL         = 400;
     const CODE_UNAUTHORIZED = 401;//权限验证失败
     const CODE_FORBIDDEN    = 403;//拒绝执行
-    const CODE_NO           = 404;//数据不存在
-    const CODE_ERROR_PARAM  = 405;//参数错误T_FOUND
+    const CODE_NO_DATA      = 404;//数据不存在
+    const CODE_ERROR_PARAM  = 405;//参数错误
     const CODE_MISS_PARAM   = 406;//参数不全
     const CODE_TIMEOUT      = 408;//超时
+    const PAGE_SIZE         = 20;
     private $trees = array();
 
     /**
@@ -100,7 +103,7 @@ class Repository
     public static function formatValidator($validator)
     {
         if ($validator->fails()) {
-            return self::fail($validator->messages()->first());
+            return self::fail($validator->messages()->first(), self::CODE_ERROR_PARAM);
         }
 
         return self::success();
@@ -117,7 +120,8 @@ class Repository
     public static function formatResult($data, $format = self::FORMAT_ARRAY)
     {
         if ($format == 'array') {
-            return method_exists($data, 'toArray') ? $data->toArray() : array();
+            return method_exists($data, 'toArray') ? $data->toArray()
+                : ($data ? json_decode(json_encode($data), true) : array());
         }
 
         return $data;
@@ -135,13 +139,31 @@ class Repository
     }
 
     /**
+     * 设置排序
+     * @param $model
+     * @param $sort
+     * @return mixed
+     */
+    public function setOrder($model, $sort = array())
+    {
+        if (!empty($sort)) {
+            foreach ($sort as $k => $v) {
+                if (in_array($k, static::$order_fields) && in_array($v, static::$order_directions)) {
+                    $model = $model->orderBy($k, $v);
+                }
+            }
+        }
+        return $model;
+    }
+
+    /**
      * 获取列表
      * @param array $filter
      * @param int $page_size
      * @param array $sort
      * @return mixed
      */
-    public function getDataList($filter = array(), $page_size = 20, $sort = array())
+    public function getDataList($filter = array(), $page_size = self::PAGE_SIZE, $sort = array())
     {
         $full_model_name        = static::$model_namespace_prefix . static::$model_name;
         $model                  = new $full_model_name;
@@ -150,8 +172,34 @@ class Repository
         $result['current_page'] = $paginate->currentPage();
         $result['total']        = $paginate->total();
         $result['last_page']    = $paginate->lastPage();
+        $result['page_size']    = $page_size;
+        $model                  = $this->setOrder($model, $sort);
         $result['items']        = $model->get()->toArray();
         return $result;
+    }
+
+
+    /****
+     *
+     * APP返回分页数据格式
+     *
+     * @param $list     array "分页数据数组"
+     * @param $page     int "当前第X页"
+     * @param $is_end   int "是否结束(0已结束1未结束)"
+     * @param $page_num int "每页条数"
+     * @param $ext      array "其它信息"
+     * @return array
+     */
+    public function getApiPageList($list, $page, $is_end, $page_num, $ext = array())
+    {
+        $format = array(
+            'list'     => (array)$list,
+            'page'     => intval($page),
+            'is_end'   => intval($is_end),
+            "page_num" => intval($page_num),
+        );
+
+        return array_merge((array)$ext, $format);
     }
 
     public function addValidation($data)
@@ -176,9 +224,10 @@ class Repository
     /**
      * 添加操作
      * @param $data
+     * @param $format
      * @return array
      */
-    public function add($data)
+    public function add($data, $format = self::FORMAT_ARRAY)
     {
         list($code, $data, $msg) = $this->beforeAdd($data);
         if ($code != 200) {
@@ -192,7 +241,7 @@ class Repository
         if ($code != 200) {
             return self::fail($msg);
         }
-        return self::success();
+        return self::success(self::formatResult($model, $format));
     }
 
     /**
@@ -218,7 +267,7 @@ class Repository
         if (!$this->isModelObject($model)) {
             return self::fail('创建失败');
         }
-        return self::success('创建成功');
+        return self::success($model, '创建成功');
     }
 
     /**
@@ -351,12 +400,5 @@ class Repository
         return self::success();
     }
 
-
-    public function buildTree($tree)
-    {
-        foreach ($tree as $t) {
-            $this->trees;
-        }
-    }
 
 }

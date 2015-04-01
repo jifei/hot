@@ -16,6 +16,7 @@ View::composers(
     array(
         'App\Http\Composer\AdminSidebarComposer' => 'admin.include.sidebar',
         'App\Http\Composer\AdminHeaderComposer'  => 'admin.include.header',
+        'App\Http\Composer\NavbarComposer'  => 'includes.navbar',
     )
 );
 
