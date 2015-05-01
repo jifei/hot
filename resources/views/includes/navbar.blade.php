@@ -13,20 +13,13 @@
             <nav class="collapse navbar-collapse bs-navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li @if(Request::path()==''||Request::path()=='/')class="active"@endif><a href="/">首页</a></li>
-                    @foreach($top_boards as $v)
-                        <li @if(isset($top_board)&&$top_board==$v['bid'])class="active"@endif><a
-                                    href="/b/{{$v['code']}}">{{$v['name']}}</a></li>
-                    @endforeach
-                    {{--<li class="dropdown">--}}
-                    {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">版块<b class="caret"></b></a>--}}
-                    {{--<ul class="dropdown-menu">--}}
-                    {{--<li><a href="#">新闻</a></li>--}}
-                    {{--<li><a href="#">自媒体</a></li>--}}
-                    {{--<li class="divider"></li>--}}
-                    {{--<li><a href="#">更多>></a></li>--}}
-                    {{--</ul>--}}
-                    {{--</li>--}}
-                    <li><a href="/more">更多>></a></li>
+                    <li><a href="/">关注</a></li>
+                    <li><a href="/">话题</a></li>
+                    <li><a href="/">收藏</a></li>
+                    {{--@foreach($top_boards as $v)--}}
+                        {{--<li @if(isset($top_board)&&$top_board==$v['bid'])class="active"@endif><a--}}
+                                    {{--href="/b/{{$v['code']}}">{{$v['name']}}</a></li>--}}
+                    {{--@endforeach--}}
                 </ul>
                 <form class="navbar-search pull-left" action="">
                     <input type="text" class="search-query" maxlength="15" placeholder="搜索">
@@ -34,7 +27,7 @@
                 </form>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <button style="margin-right:5px;margin-top: 3px;" @if(!$user) onclick="window.location.href='/auth/login'"
+                        <button style="margin-right:5px;margin-top: 6px;" @if(!$user) onclick="window.location.href='/auth/login'"
                                 @else  data-target="#publishModal"  data-toggle="modal"
                                 @endif  class="btn btn-warning publish-btn">发布
                         </button>
@@ -62,11 +55,3 @@
         </div>
     </div>
 </header>
-<div class="nav-second">
-    <ul>
-        <li><a>搞笑</a></li>
-        <li><a>搞笑</a></li>
-        <li><a>搞笑</a></li>
-        <li><a>搞笑</a></li>
-    </ul>
-</div>

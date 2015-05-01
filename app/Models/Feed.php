@@ -30,14 +30,10 @@ class Feed extends Model
      */
     protected $hidden = ['fid', 'deleted_at'];
 
-    public function board_name()
-    {
 
-    }
-
-    public function board()
+    public function topics()
     {
-        return $this->belongsTo('App\Models\Board','bid');
+        return $this->hasMany('App\Models\Board','fid');
     }
 
     public function user()

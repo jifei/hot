@@ -1,7 +1,13 @@
 @include('includes.head')
 @include('includes.navbar',array('top_board'=>isset($top_board)?$top_board:0))
+
 <div id="content" class="container">
     <div id="content-container">
+        <div class="order-selection" style="margin-bottom: 5px;">
+            <span><a>热门</a></span>
+            <span><a>最新</a></span>
+            <span><a>精选</a></span>
+        </div>
         <div id="timeline" class="col-md-8">
       @foreach ($feed_list as $feed)
         @include('component.feed',array('feed'=>$feed))

@@ -16,9 +16,9 @@ class CreateFavoriteTable extends Migration {
         //
         Schema::create('favorite', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('id')->comment('ID');
-            $table->bigInteger('fid')->index()->comment('热度点ID');
+            $table->increments('favorite_id')->comment('ID');
             $table->bigInteger('uid')->index()->comment('用户ID');
+            $table->tinyInteger('is_public')->default(0)->comment('是否公开');
             $table->tinyInteger('status')->default(1)->comment('状态');
             // created_at, updated_at DATETIME
             $table->timestamps();

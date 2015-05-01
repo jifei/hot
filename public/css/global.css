@@ -10,7 +10,6 @@ label {
     height: 0px;
 }
 
-
 #content a {
     color: #888;
     cursor: pointer;
@@ -34,10 +33,10 @@ label {
 }
 
 header.navbar {
-    margin-bottom: 5px;
-    height: 40px;
-    min-width: 1205px;
-    min-height: 40px;
+    margin-bottom: 0px;
+    height: 46px;
+    min-width: 1008px;
+    min-height: 46px;
     background-color: #eee;
     background-image: linear-gradient(to bottom, #eee, #eee);
     border-color: #e5e5e5;
@@ -45,12 +44,13 @@ header.navbar {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e5e5e5', endColorstr='#e5e5e5', GradientType=0);
     BACKGROUND-COLOR: #eee
 }
+
 .container {
-    min-width: 1195px;
+    min-width: 1008px;
 }
 
 .navbar .nav li a {
-    padding: 10px 3px 10px 3px;
+    padding: 13px;
     color: #FF7A01;
     text-shadow: 0 0 0;
 }
@@ -59,7 +59,7 @@ header.navbar {
     padding: 3px 20px;
 }
 
-.navbar .nav li a:hover,.nav li.active a, .navbar-inverse .nav .dropdown-menu li a:focus {
+.navbar .nav li a:hover, .nav li.active a, .navbar-inverse .nav .dropdown-menu li a:focus {
     background-image: linear-gradient(to bottom, #F70, #F70);
     background-color: #F70;
     background-image: -moz-linear-gradient(top, #F70, #F70);
@@ -72,7 +72,6 @@ header.navbar {
     color: #FFF;
 
 }
-
 
 a {
     blr: expression(this.onFocus=this.blur()); /* IE Opera */
@@ -98,16 +97,19 @@ a:focus {
 
 form.navbar-search {
     position: relative;
+    margin-left: 50px;
     margin-top: 8px;
+    /*height: 46px;*/
+}
+
+input.search-query {
+    width: 300px;
     height: 30px;
 }
 
-input.search-query{
-    width: 142px;
-}
 .navbar-search .icon-search {
     position: absolute;
-    top: 4px;
+    top: 6px;
     right: 8px;
 }
 
@@ -120,8 +122,6 @@ input.search-query{
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e5e5e5', endColorstr='#e5e5e5', GradientType=0);
     BACKGROUND-COLOR: #eee
 }
-
-
 
 .navbar-inverse .navbar-search .search-query {
     padding: 0px 18px 0px 14px;
@@ -139,7 +139,6 @@ input.search-query{
     padding: 0px 18px 0px 14px;
 }
 
-
 .navbar .icon-search {
     height: 18px;
     width: 18px;
@@ -147,7 +146,7 @@ input.search-query{
     background: url("../img/icon_search.png") no-repeat 0px 0px;
 }
 
-.navbar-header .navbar-brand{
+.navbar-header .navbar-brand {
     height: 40px;
     padding: 10px;
     color: #f40;
@@ -168,6 +167,8 @@ input.search-query{
 
 .feed-content {
     margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .feed-content a:hover {
@@ -175,16 +176,13 @@ input.search-query{
     color: #08c
 }
 
-
-
 #content-container {
     margin: 0 auto;
 }
 
 .feed-item {
     border-bottom: solid 1px #dfefef;
-    margin-top: 12px;
-    padding-bottom: 5px;
+    margin-top: 5px;
 }
 
 #dashboard-right {
@@ -194,19 +192,31 @@ input.search-query{
 }
 
 .vote {
-    margin: 0 8px;
-    width: 60px;
+    margin-right:8px;
     text-align: center;
 }
 
-.feed-from {
-    float: right;
+#content .feed-item a.tag {
+    padding: 1px 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    color: #eb7350;
+    text-decoration: none;
+    background-color:#fff;
 }
 
-.feed-handle {
-    float: left;
+#content .feed-item a.tag:focus, #content .feed-item a.tag:hover {
+    color: white;
+    border-color: #f49484;
+    background-color: #ff9376
 }
 
+.order-selection{
+    margin: 5px 0;
+}
+.order-selection a{
+    padding:0  5px;
+}
 .vote-up, .vote-down {
     display: block;
     cursor: pointer;
@@ -378,7 +388,7 @@ body .jump-link {
     color: #555;
 }
 
-.nav-second li.current a,.nav-second li a:hover {
+.nav-second li.current a, .nav-second li a:hover {
     color: #FF7A01;
 }
 
@@ -390,31 +400,36 @@ body .jump-link {
     /*-webkit-box-shadow: 0 0 0 1px #a3bcea;*/
 }
 
-#publishModal pre,#publishModal textarea{
+#publishModal pre, #publishModal textarea {
     font-family: "Helvetica Neue", Arial, "Lucida Grande", sans-serif;
     font-size: 14px;
 
 }
 
-#content .feed-content a{
+#content .feed-content a {
     color: #FF7A01;
 }
 
-.feed-content s{
+.feed-content s {
     text-decoration: none;
 }
-.feed-content b{
+
+.feed-content b {
     font-weight: normal;
 }
-.feed-content b:hover{
-    text-decoration:underline;
+
+.feed-content b:hover {
+    text-decoration: underline;
 }
-#publishModal pre.highlighter{
+
+#publishModal pre.highlighter {
     color: #fff;
 }
-#publishModal pre b{
+
+#publishModal pre b {
     color: #f9de99;
 }
+
 .dropdown:hover .dropdown-menu {
     display: block;
 }

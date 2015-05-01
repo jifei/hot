@@ -19,7 +19,6 @@ class CreateFeedTable extends Migration
             $table->bigIncrements('fid')->comment('热度点ID');
             $table->string('fkey',12)->unique()->comment('fkey');
             $table->bigInteger('uid')->index()->comment('用户ID');
-            $table->integer('bid')->index()->comment('版块ID');
             $table->string('title', 500)->comment('标题');
             $table->string('link', 300)->nullable()->comment('链接');
             $table->string('domain', 100)->nullable()->comment('链接域名');

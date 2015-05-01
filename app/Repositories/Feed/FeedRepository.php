@@ -120,7 +120,7 @@ class FeedRepository extends Repository
             $data['link'] = 'http://' . $data['link'];
         }
         list($code, , $msg) = self::format_validator($this->validator($data));
-        if ($code!=200) {
+        if ($code != 200) {
             return self::fail($msg);
         }
         if (!empty($data['link'])) {
@@ -193,16 +193,10 @@ class FeedRepository extends Repository
         $page = max(1, min(20, intval($page)));
         DB::setFetchMode(PDO::FETCH_ASSOC);
         $query = DB::table('feed as f')->select('f.fkey', 'f.title', 'f.domain', 'f.up_num', 'f.down_num',
-            'f.created_at', 'u.nickname', 'b.name as board_name', 'b.code as board_code');
-        $query->leftJoin('user as u', 'f.uid', '=', 'u.uid');
-        $query->leftJoin('board as b', 'f.bid', '=', 'b.bid');
+            'f.created_at', 'u.nickname')
+            ->leftJoin('user as u', 'f.uid', '=', 'u.uid');
 
-        if (!empty($filter['board'])) {
-            $board = $this->board->getBoardByCode($filter['board']);
-            if (!empty($board['bid'])) {
-                $query->where('f.bid', $board['bid']);
-            }
-        }
+
         if (!in_array($order, ['fid'])) {
             $order = 'fid';
         }
@@ -213,13 +207,6 @@ class FeedRepository extends Repository
         return $query->get();
     }
 
-
-    public function getFeedByBoard($bid, $order, $format = self::FORMAT_ARRAY)
-    {
-        $feed = Feed::where('bid', $bid)->orWhere('pid', $bid)->orderBy($order, 'DESC')->get();
-
-        return self::formatResult($feed, $format);
-    }
 
 
 }
