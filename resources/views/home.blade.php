@@ -3,12 +3,14 @@
 
 <div id="content" class="container">
     <div id="content-container">
-        <div class="order-selection" style="margin-bottom: 5px;">
-            <span><a>热门</a></span>
-            <span><a>最新</a></span>
-            <span><a>精选</a></span>
-        </div>
+
+
         <div id="timeline" class="col-md-8">
+            <div class="order-selection" >
+                <span>热门</span>
+                <span><a>最新</a></span>
+                <span><a>精华</a></span>
+            </div>
       @foreach ($feed_list as $feed)
         @include('component.feed',array('feed'=>$feed))
       @endforeach

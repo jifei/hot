@@ -167,7 +167,7 @@ input.search-query {
 
 .feed-content {
     margin-bottom: 5px;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
 }
 
@@ -181,7 +181,7 @@ input.search-query {
 }
 
 .feed-item {
-    border-bottom: solid 1px #dfefef;
+    border-bottom: solid 1px #eee;
     margin-top: 5px;
 }
 
@@ -192,8 +192,8 @@ input.search-query {
 }
 
 .vote {
-    margin-right:8px;
     text-align: center;
+    width: 40px;
 }
 
 #content .feed-item a.tag {
@@ -202,7 +202,7 @@ input.search-query {
     border-radius: 10px;
     color: #eb7350;
     text-decoration: none;
-    background-color:#fff;
+    background-color: #fff;
 }
 
 #content .feed-item a.tag:focus, #content .feed-item a.tag:hover {
@@ -211,23 +211,36 @@ input.search-query {
     background-color: #ff9376
 }
 
-.order-selection{
-    margin: 5px 0;
+.order-selection {
+    margin: 16px 0px;
+    padding-bottom: 3px;
+    border-bottom: solid 1px #ccc;
 }
-.order-selection a{
-    padding:0  5px;
+
+#content .order-selection span a {
+    color: #ff7206;
+    font-weight: normal;
 }
+#content .order-selection a:hover {
+    font-weight: bold;
+}
+
+#content .order-selection span {
+    padding: 0px 18px 0px 0px;
+    font-weight: bold;
+    color: #555;
+}
+
 .vote-up, .vote-down {
     display: block;
     cursor: pointer;
     width: 15px;
-    height: 15px;
     margin: 0 auto;
 }
 
 .vote-count {
     font-weight: bold;
-    font-family: verdana, arial, helvetica, sans-serif;
+    font-family:"Open Sans","Helvetica Neue",Helvetica,Arial,STHeiti,"Microsoft Yahei",sans-serif;
     font-size: 13px;
     color: #c6c6c6;
 }
@@ -240,21 +253,21 @@ input.search-query {
     color: #9494FF;
 }
 
-.vote-up {
-    background-image: url("../img/up-down.png");
-    background-position: -42px -818px;
-    background-repeat: no-repeat;
-}
+/*.vote-up {*/
+    /*background-image: url("../img/up-down.png");*/
+    /*background-position: -42px -818px;*/
+    /*background-repeat: no-repeat;*/
+/*}*/
 
 .upmode .vote-up {
     background-position: -63px -818px;
 }
 
-.vote-down {
-    background-image: url("../img/up-down.png");
-    background-position: 0px -818px;
-    background-repeat: no-repeat;
-}
+/*.vote-down {*/
+    /*background-image: url("../img/up-down.png");*/
+    /*background-position: 0px -818px;*/
+    /*background-repeat: no-repeat;*/
+/*}*/
 
 .downmode .vote-down {
     background-position: -21px -818px;

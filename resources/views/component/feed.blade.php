@@ -1,10 +1,10 @@
 <div class="feed-item" data-id="{{$feed['fkey']}}">
     <div class="vote @if($feed['up_num']-$feed['down_num']>0) upmode
        @elseif($feed['up_num']-$feed['down_num']<0) downmode @endif">
-        <a class="vote-up"></a>
+        <a class="vote-up"><i class="fa fa-caret-up fa-2x"></i></a>
 
         <div class="vote-count">{{$feed['up_num']-$feed['down_num']}}</div>
-        <a class="vote-down"></a>
+        <a class="vote-down"><i class="fa fa-caret-down fa-2x"></i></a>
     </div>
 
     <div class="feed col-md-10">
