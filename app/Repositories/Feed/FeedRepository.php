@@ -192,9 +192,10 @@ class FeedRepository extends Repository
     {
         $page = max(1, min(20, intval($page)));
         DB::setFetchMode(PDO::FETCH_ASSOC);
-        $query = DB::table('feed as f')->select('f.fkey', 'f.title', 'f.domain', 'f.up_num', 'f.down_num',
-            'f.created_at', 'u.nickname')
-            ->leftJoin('user as u', 'f.uid', '=', 'u.uid');
+        $query = DB::table('feed as f')
+            ->leftJoin('user as u', 'f.uid', '=', 'u.uid')
+            ->select('f.fkey', 'f.title', 'f.domain', 'f.up_num', 'f.down_num',
+                'f.created_at', 'u.nickname');
 
 
         if (!in_array($order, ['fid'])) {
@@ -207,6 +208,10 @@ class FeedRepository extends Repository
         return $query->get();
     }
 
+    public function formatItem($feed)
+    {
+
+    }
 
 
 }

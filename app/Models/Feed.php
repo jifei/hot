@@ -18,7 +18,7 @@ class Feed extends Model
      *
      * @var array
      */
-    protected $fillable = ['fkey', 'title', 'bid', 'uid', 'link', 'domain', 'status'];
+    protected $fillable = ['fkey', 'title',  'uid', 'link', 'domain', 'status'];
 
     //黑名单
     // protected $guarded = array('fid');
@@ -28,12 +28,12 @@ class Feed extends Model
      *
      * @var array
      */
-    protected $hidden = ['fid', 'deleted_at'];
+    protected $hidden = [];
 
 
     public function topics()
     {
-        return $this->hasMany('App\Models\Board','fid');
+        return $this->hasMany('App\Models\FeedTopic','fid');
     }
 
     public function user()

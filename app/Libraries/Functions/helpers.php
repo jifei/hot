@@ -125,3 +125,33 @@ function format_number($num)
     return $num;
 }
 
+/**
+ * 格式化日期时间
+ * @param $date_time
+ *
+ * @return bool|string
+ */
+function format_datetime($date_time)
+{
+    $time   = strtotime($date_time);
+    $diff_time =time()-$time;
+    switch ($time) {
+        case $diff_time < 60:
+            $result=$diff_time.'秒前';
+            break;
+        case $diff_time<3600:
+            $result =($diff_time/60).'分钟前';
+            break;
+        case date('Ymd')==date('Ymd',$time):
+            $result = '今天 '.date('H:i',$time);
+            break;
+        case date('Y')==date('Y',$time):
+            $result = date('m月d日 H:i',$time);
+            break;
+        default:
+            $result = date('Y-m-d H:i',$time);
+    }
+
+    return $result;
+}
+
