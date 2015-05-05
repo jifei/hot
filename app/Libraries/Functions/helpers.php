@@ -11,6 +11,7 @@
  * 检查手机号是否非法
  *
  * @param $mobile
+ *
  * @return int
  */
 function checkMobile($mobile)
@@ -27,6 +28,7 @@ function getIp()
     } else {
         $ip = $_SERVER['REMOTE_ADDR'];
     }
+
     return $ip;
 }
 
@@ -43,6 +45,7 @@ function getFullURL()
     } else {
         $pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
     }
+
     return $pageURL;
 }
 
@@ -102,3 +105,23 @@ function generate_feed_key()
 
     return substr_replace($rand_str, $key, 2, 0);
 }
+
+/**
+ * 格式化输出数字
+ *
+ * @param $num
+ *
+ * @return string
+ */
+function format_number($num)
+{
+    switch ($num) {
+        case $num < 1000 && $num > -1000:
+            break;
+        default:
+            $num = round($num / 1000, 1) . 'K';
+    }
+
+    return $num;
+}
+
